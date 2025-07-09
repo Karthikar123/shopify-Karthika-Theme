@@ -1,0 +1,186 @@
+{% schema %}
+{
+  "name": "Featured Collections",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Explore Our Curated Collections"
+    },
+    {
+      "type": "collection",
+      "id": "collection_1",
+      "label": "First Collection"
+    },
+    {
+      "type": "collection",
+      "id": "collection_2",
+      "label": "Second Collection"
+    }
+  ],
+  "presets": [{
+    "name": "Premium Split Collection"
+  }]
+}
+{% endschema %}
+
+<section class="premium-collections-section">
+  <div class="container">
+    <h2 class="section-heading">{{ section.settings.heading }}</h2>
+
+    {% assign collection1 = collections[section.settings.collection_1] %}
+    {% if collection1 %}
+    <div class="collection-block">
+      <div class="collection-header">
+        <h3>{{ collection1.title }}</h3>
+        <div class="divider"></div>
+        <p>{{ collection1.description | truncate: 100 }}</p>
+      </div>
+      <div class="collection-products">
+        {% for product in collection1.products limit: 3 %}
+        <div class="product-card">
+          <a href="{{ product.url }}">
+            <img src="{{ product.featured_image | img_url: '360x360' }}" alt="{{ product.title }}">
+            <div class="details">
+              <span class="title">{{ product.title }}</span>
+              <span class="price">{{ product.price | money }}</span>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="explore-link">
+        <a href="{{ collection1.url }}">Explore {{ collection1.title }} →</a>
+      </div>
+    </div>
+    {% endif %}
+
+    {% assign collection2 = collections[section.settings.collection_2] %}
+    {% if collection2 %}
+    <div class="collection-block">
+      <div class="collection-header">
+        <h3>{{ collection2.title }}</h3>
+        <div class="divider"></div>
+        <p>{{ collection2.description | truncate: 100 }}</p>
+      </div>
+      <div class="collection-products">
+        {% for product in collection2.products limit: 3 %}
+        <div class="product-card">
+          <a href="{{ product.url }}">
+            <img src="{{ product.featured_image | img_url: '360x360' }}" alt="{{ product.title }}">
+            <div class="details">
+              <span class="title">{{ product.title }}</span>
+              <span class="price">{{ product.price | money }}</span>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="explore-link">
+        <a href="{{ collection2.url }}">Explore {{ collection2.title }} →</a>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+.premium-collections-section {
+  padding: 60px 20px;
+  background: #ffffff;
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+.section-heading {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 60px;
+}
+
+.collection-block {
+  margin-bottom: 80px;
+}
+
+.collection-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.collection-header h3 {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #111;
+}
+.collection-header p {
+  font-size: 15px;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.divider {
+  width: 60px;
+  height: 3px;
+  background: #111;
+  margin: 12px auto;
+  border-radius: 2px;
+}
+
+.collection-products {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.product-card {
+  width: 200px;
+  background: #f8f8f8;
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+.product-card:hover {
+  transform: translateY(-4px);
+}
+.product-card img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+.details {
+  padding: 12px;
+}
+.details .title {
+  font-size: 14px;
+  color: #222;
+  display: block;
+  margin-bottom: 4px;
+}
+.details .price {
+  font-size: 13px;
+  color: #666;
+}
+
+.explore-link {
+  text-align: center;
+  margin-top: 25px;
+}
+.explore-link a {
+  font-size: 14px;
+  text-decoration: none;
+  color: #111;
+  padding: 10px 18px;
+  border: 1px solid #111;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+}
+.explore-link a:hover {
+  background: #111;
+  color: #fff;
+}
+</style>

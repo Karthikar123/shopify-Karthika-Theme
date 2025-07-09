@@ -1,0 +1,311 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_banner": {
+      "type": "image-banner",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "<strong>Browse our latest products</strong>",
+            "heading_size": "h0"
+          }
+        },
+        "button": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Shop all",
+            "button_link_1": "shopify://collections/all",
+            "button_style_secondary_1": true,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "button"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/5_6173ab91-5c0e-4415-b8e1-cfdbb48e4dbf.jpg",
+        "image_2": "shopify://shop_images/3_ab7339cd-407c-4079-b53c-1a52eb018785.jpg",
+        "image_overlay_opacity": 0,
+        "image_height": "large",
+        "image_behavior": "zoom-in",
+        "desktop_content_position": "bottom-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": true,
+        "color_scheme": "scheme-4",
+        "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
+        "show_text_below": true
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "all",
+        "products_to_show": 8,
+        "title": "Latest Collection",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "scheme-1",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 24,
+        "padding_bottom": 0
+      }
+    },
+    "custom_media_slider_6RCp6d": {
+      "type": "custom-media-slider",
+      "blocks": {
+        "slide_cWmT3e": {
+          "type": "slide",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/12.jpg",
+            "video_url": ""
+          }
+        },
+        "slide_NEzpkh": {
+          "type": "slide",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/7_5e431135-7307-428b-a190-fed91816d94b.jpg",
+            "video_url": ""
+          }
+        },
+        "slide_dwaQTR": {
+          "type": "slide",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/6_7e91f99a-c627-45a4-8de8-f8354939fa39.jpg",
+            "video_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_cWmT3e",
+        "slide_NEzpkh",
+        "slide_dwaQTR"
+      ],
+      "name": "Custom Media Slider",
+      "settings": {
+        "heading": "Our Featured Collection",
+        "subheading": "Explore premium products crafted to perfection. Image and video support included.",
+        "heading_alignment": "center",
+        "heading_size": "large",
+        "heading_weight": "bold",
+        "heading_color": "#121212",
+        "subheading_size": "medium",
+        "subheading_weight": "normal",
+        "subheading_color": "#121212",
+        "padding_top": "medium",
+        "color_scheme": ""
+      }
+    },
+    "collection_products_AVmp7G": {
+      "type": "collection-products",
+      "name": "TASK Collection Prdts",
+      "settings": {
+        "section_heading": "Summer Collection",
+        "heading_size": "large",
+        "heading_bold": true,
+        "selected_collection": "summer-collection",
+        "layout_style": "grid",
+        "product_limit": 4
+      }
+    },
+    "image_gallery_Cth9NQ": {
+      "type": "image-gallery",
+      "blocks": {
+        "image_block_AKAeMj": {
+          "type": "image_block",
+          "settings": {
+            "image": "shopify://shop_images/19_1837feca-4a42-4165-b50b-6961e191569f.jpg",
+            "caption": "Rolex"
+          }
+        },
+        "image_block_QyF7Hi": {
+          "type": "image_block",
+          "settings": {
+            "image": "shopify://shop_images/11_87612e6d-94cc-4067-9016-23d3380d0fa3.jpg",
+            "caption": "Omega"
+          }
+        },
+        "image_block_t7dybL": {
+          "type": "image_block",
+          "settings": {
+            "image": "shopify://shop_images/18.jpg",
+            "caption": "Tag Heuer"
+          }
+        },
+        "image_block_PNM6ap": {
+          "type": "image_block",
+          "settings": {
+            "image": "shopify://shop_images/14.jpg",
+            "caption": "Cartier"
+          }
+        },
+        "image_block_RknfKC": {
+          "type": "image_block",
+          "settings": {
+            "image": "shopify://shop_images/17.jpg",
+            "caption": "Patek Philippe"
+          }
+        },
+        "image_block_mpXxxx": {
+          "type": "image_block",
+          "settings": {
+            "image": "shopify://shop_images/3_0308e8b3-17ab-47cf-9aab-8747b58de405.jpg",
+            "caption": "Audemars Piguet"
+          }
+        },
+        "image_block_frjkBP": {
+          "type": "image_block",
+          "settings": {
+            "image": "shopify://shop_images/16_0b1b6358-9031-4d2d-8cbe-6f4ee0ac4ef9.jpg",
+            "caption": "Tissot"
+          }
+        },
+        "image_block_ppNqby": {
+          "type": "image_block",
+          "settings": {
+            "image": "shopify://shop_images/15_93e3e877-9d7c-4da3-afac-88b9438c0215.jpg",
+            "caption": "Seiko"
+          }
+        }
+      },
+      "block_order": [
+        "image_block_AKAeMj",
+        "image_block_QyF7Hi",
+        "image_block_t7dybL",
+        "image_block_PNM6ap",
+        "image_block_RknfKC",
+        "image_block_mpXxxx",
+        "image_block_frjkBP",
+        "image_block_ppNqby"
+      ],
+      "name": "Image Gallery",
+      "settings": {
+        "gallery_heading": "Our Image Gallery",
+        "gallery_description": "A handpicked collection of our best moments and creations."
+      }
+    },
+    "main_product_7qXR94": {
+      "type": "main-product",
+      "disabled": true,
+      "name": "Split View",
+      "settings": {}
+    },
+    "split_view_My744j": {
+      "type": "split-view",
+      "name": "Split View",
+      "settings": {
+        "heading": "Explore Our Curated Collections",
+        "heading_size": "xlarge",
+        "heading_weight": "700",
+        "collection_1": "summer-shirts",
+        "collection_2": "editor-s-picks",
+        "color_scheme": "background-2"
+      }
+    },
+    "category_menu_bar_acJ9YY": {
+      "type": "category-menu-bar",
+      "blocks": {
+        "collection_button_rQ8ryg": {
+          "type": "collection_button",
+          "settings": {
+            "collection": "sunscreen-spf"
+          }
+        },
+        "collection_button_AEUnpL": {
+          "type": "collection_button",
+          "settings": {
+            "collection": "polo-tshirt"
+          }
+        },
+        "collection_button_LX3ki4": {
+          "type": "collection_button",
+          "settings": {
+            "collection": "shoes"
+          }
+        },
+        "collection_button_PCDqTY": {
+          "type": "collection_button",
+          "settings": {
+            "collection": "sandals"
+          }
+        },
+        "collection_button_QcyXMQ": {
+          "type": "collection_button",
+          "settings": {
+            "collection": "summer-shirts"
+          }
+        },
+        "collection_button_ry3Mkc": {
+          "type": "collection_button",
+          "settings": {
+            "collection": "womens-dresses"
+          }
+        },
+        "collection_button_DarAPC": {
+          "type": "collection_button",
+          "settings": {
+            "collection": "blazers"
+          }
+        },
+        "collection_button_KYqcaK": {
+          "type": "collection_button",
+          "settings": {
+            "collection": "womens-shoes"
+          }
+        }
+      },
+      "block_order": [
+        "collection_button_rQ8ryg",
+        "collection_button_AEUnpL",
+        "collection_button_LX3ki4",
+        "collection_button_PCDqTY",
+        "collection_button_QcyXMQ",
+        "collection_button_ry3Mkc",
+        "collection_button_DarAPC",
+        "collection_button_KYqcaK"
+      ],
+      "name": "Category Menu Bar",
+      "settings": {}
+    }
+  },
+  "order": [
+    "image_banner",
+    "featured_collection",
+    "custom_media_slider_6RCp6d",
+    "collection_products_AVmp7G",
+    "image_gallery_Cth9NQ",
+    "main_product_7qXR94",
+    "split_view_My744j",
+    "category_menu_bar_acJ9YY"
+  ]
+}

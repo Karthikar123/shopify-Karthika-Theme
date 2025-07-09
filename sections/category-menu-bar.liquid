@@ -1,0 +1,176 @@
+{% stylesheet %}
+:root {
+  --header-bg: #f5f5f5;
+  --section-bg: #ffffff;
+  --card-bg: #ffffff;
+  --card-text: #222222;
+  --btn-bg: #000000;
+  --btn-text: #ffffff;
+}
+
+.section-wrapper {
+  background: var(--section-bg);
+  padding: 40px 20px;
+}
+
+.premium-header {
+  background: var(--header-bg);
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.collection-links a {
+  background-color: #ececec;
+  color: #333;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.collection-links a.active,
+.collection-links a:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
+}
+.product-card {
+  background: var(--card-bg);
+  color: var(--card-text);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  transition: transform 0.3s ease;
+  border: 1px solid #eee;
+}
+.product-card:hover {
+  transform: translateY(-4px);
+}
+.product-card img {
+  width: 100%;
+  height: 340px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.product-card h3 {
+  font-size: 16px;
+  margin: 12px 0 6px;
+  font-weight: 600;
+}
+.product-card p {
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+.product-card button {
+  padding: 8px 16px;
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.product-card button:hover {
+  background-color: #333;
+}
+{% endstylesheet %}
+
+<div class="section-wrapper">
+  <!-- Simple Light Header Tabs -->
+  <div class="premium-header collection-links">
+    {% for block in section.blocks %}
+      {% assign handle = block.settings.collection.handle %}
+      {% if handle %}
+        <a href="javascript:void(0);" data-handle="{{ handle }}" class="collection-tab {% if forloop.first %}active{% endif %}">
+          {{ block.settings.collection.title }}
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <!-- Product Grid Section -->
+  <div id="collection-content">
+    {% for block in section.blocks %}
+      {% assign collection = collections[block.settings.collection.handle] %}
+      {% if collection %}
+        <div class="collection-products" id="collection-{{ collection.handle }}" style="{% unless forloop.first %}display:none;{% endunless %}">
+          <div class="products-grid">
+            {% for product in collection.products %}
+              <div class="product-card">
+                <a href="{{ product.url }}">
+                  <img src="{{ product.featured_image | image_url: width: 480 }}" alt="{{ product.title }}">
+                </a>
+                <h3>{{ product.title }}</h3>
+                <p>{{ product.price | money }}</p>
+                <form method="post" action="/cart/add">
+                  <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                  <button type="submit">Add to Cart</button>
+                </form>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const tabs = document.querySelectorAll(".collection-tab");
+    const collections = document.querySelectorAll(".collection-products");
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", function () {
+        const handle = this.dataset.handle;
+
+        collections.forEach(c => c.style.display = "none");
+        const active = document.getElementById("collection-" + handle);
+        if (active) active.style.display = "block";
+
+        tabs.forEach(t => t.classList.remove("active"));
+        this.classList.add("active");
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Simple Collection Cards",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "collection_button",
+      "name": "Collection Button",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Collection"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Simple Collection Cards",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+

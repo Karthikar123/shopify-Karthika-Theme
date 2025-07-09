@@ -1,0 +1,342 @@
+{% stylesheet %}
+.custom-slider-section {
+  background: rgba(0, 0, 0, 0.8); /* Transparent black */
+  position: relative;
+  overflow: visible;
+  color: #fff;
+  margin-bottom: 60px;
+  padding: 40px 20px;
+  border-radius: 24px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+}
+
+/* Unified padding classes */
+.padding-top--none, .padding-bottom--none { padding-top: 0 !important; padding-bottom: 0 !important; }
+.padding-top--small, .padding-bottom--small { padding-top: 10px !important; padding-bottom: 10px !important; }
+.padding-top--medium, .padding-bottom--medium { padding-top: 30px !important; padding-bottom: 30px !important; }
+.padding-top--large, .padding-bottom--large { padding-top: 100px !important; padding-bottom: 100px !important; }
+
+.slider-heading {
+  margin-bottom: 40px;
+  color: #fff;
+}
+
+.slider-heading.text-left { text-align: left; }
+.slider-heading.text-center { text-align: center; }
+.slider-heading.text-right { text-align: right; }
+
+.slider-heading .heading-small { font-size: 1.8rem; }
+.slider-heading .heading-medium { font-size: 2.4rem; }
+.slider-heading .heading-large { font-size: 3.2rem; }
+
+.slider-heading .subheading-small { font-size: 0.9rem; }
+.slider-heading .subheading-medium { font-size: 1.1rem; }
+.slider-heading .subheading-large { font-size: 1.3rem; }
+
+.slider-heading .fontweight-normal { font-weight: 400; }
+.slider-heading .fontweight-semibold { font-weight: 600; }
+.slider-heading .fontweight-bold { font-weight: 700; }
+.slider-heading .fontweight-extrabold { font-weight: 800; }
+
+.custom-swiper {
+  width: 100%;
+  max-width: 740px;
+  height: 520px;
+  margin: 0 auto;
+  background: #000 !important;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  transition: box-shadow 0.4s ease;
+  position: relative;
+}
+
+.custom-swiper::before {
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 40px;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.5) 0%, transparent 80%);
+  z-index: -1;
+  filter: blur(6px);
+  opacity: 0.5;
+}
+
+.swiper-slide {
+  width: 100%;
+  height: 100%;
+  background: #000 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  position: relative;
+}
+
+.premium-badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: gold;
+  color: black;
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.swiper-slide img,
+.swiper-slide video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 18px;
+  background-color: #000;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s ease;
+}
+
+.swiper-slide:hover img,
+.swiper-slide:hover video {
+  transform: scale(1.02);
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: background 0.3s ease;
+}
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.swiper-pagination {
+  bottom: 20px !important;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background: #666;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.swiper-pagination-bullet-active {
+  background: #fff;
+  opacity: 1;
+  transform: scale(1.2);
+}
+{% endstylesheet %}
+
+<div class="custom-slider-section color-{{ section.settings.color_scheme }} padding-top--{{ section.settings.padding_top }} padding-bottom--{{ section.settings.padding_top }}">
+  <div class="slider-heading text-{{ section.settings.heading_alignment }}">
+    <h2 class="heading-{{ section.settings.heading_size }} fontweight-{{ section.settings.heading_weight }}" style="color: {{ section.settings.heading_color | default: '#ffffff' }};">
+      {{ section.settings.heading }}
+    </h2>
+    <p class="subheading-{{ section.settings.subheading_size }} fontweight-{{ section.settings.subheading_weight }}" style="color: {{ section.settings.subheading_color | default: '#dddddd' }};">
+      {{ section.settings.subheading }}
+    </p>
+  </div>
+
+  <div class="swiper custom-swiper">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <div class="swiper-slide">
+          <span class="premium-badge">Premium</span>
+          {% if block.settings.media_type == 'image' and block.settings.image != blank %}
+            <img src="{{ block.settings.image | image_url: width: 1600 }}" alt="Slide Image {{ forloop.index }}">
+          {% elsif block.settings.media_type == 'video' and block.settings.video_url != blank %}
+            <video autoplay loop muted playsinline>
+              <source src="{{ block.settings.video_url }}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+  </div>
+</div>
+
+{% javascript %}
+document.addEventListener('DOMContentLoaded', function () {
+  new Swiper('.custom-swiper', {
+    loop: true,
+    effect: 'fade',
+    fadeEffect: { crossFade: true },
+    autoplay: {
+      delay: 4000,
+      disableOnInteraction: false
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    }
+  });
+});
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Custom Media Slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our Featured Collection"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Explore premium products crafted to perfection. Image and video support included."
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading Alignment",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading Size",
+      "default": "medium",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading Font Weight",
+      "default": "bold",
+      "options": [
+        { "value": "normal", "label": "Normal" },
+        { "value": "semibold", "label": "Semi Bold" },
+        { "value": "bold", "label": "Bold" },
+        { "value": "extrabold", "label": "Extra Bold" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "subheading_size",
+      "label": "Subheading Size",
+      "default": "medium",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "subheading_weight",
+      "label": "Subheading Font Weight",
+      "default": "normal",
+      "options": [
+        { "value": "normal", "label": "Normal" },
+        { "value": "semibold", "label": "Semi Bold" },
+        { "value": "bold", "label": "Bold" },
+        { "value": "extrabold", "label": "Extra Bold" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading Color",
+      "default": "#dddddd"
+    },
+    {
+      "type": "select",
+      "id": "padding_top",
+      "label": "Padding (Top & Bottom)",
+      "default": "medium",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ]
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "background-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "select",
+          "id": "media_type",
+          "label": "Media Type",
+          "default": "image",
+          "options": [
+            { "value": "image", "label": "Image" },
+            { "value": "video", "label": "Video" }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Slide Image"
+        },
+        {
+          "type": "url",
+          "id": "video_url",
+          "label": "Video URL (MP4)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Media Slider",
+      "category": "Media"
+    }
+  ]
+}
+{% endschema %}

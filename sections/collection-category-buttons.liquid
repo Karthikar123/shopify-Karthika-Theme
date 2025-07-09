@@ -1,0 +1,75 @@
+{% stylesheet %}
+.collection-category-buttons {
+  text-align: center;
+  padding: 40px 0;
+}
+.collection-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+.collection-buttons a {
+  padding: 12px 24px;
+  background-color: #222;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+.collection-buttons a:hover {
+  background-color: #444;
+}
+{% endstylesheet %}
+
+<div class="collection-category-buttons">
+  {% if section.settings.heading != blank %}
+    <h2>{{ section.settings.heading }}</h2>
+  {% endif %}
+
+  <div class="collection-buttons">
+    {% for block in section.blocks %}
+      {% if block.settings.collection %}
+        <a href="{{ block.settings.collection.url }}">
+          {{ block.settings.collection.title }}
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Category Buttons",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by Category"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_button",
+      "name": "Collection Button",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Collection"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Category Buttons",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

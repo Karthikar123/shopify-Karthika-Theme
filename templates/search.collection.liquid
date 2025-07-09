@@ -1,0 +1,12 @@
+{
+  "products": [
+    {% for product in collection.products limit: 20 %}
+    {
+      "title": {{ product.title | json }},
+      "url": {{ product.url | json }},
+      "price": {{ product.price | money | json }},
+      "featured_image": {{ product.featured_image | img_url: '400x400' | prepend: "https:" | json }}
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+}
