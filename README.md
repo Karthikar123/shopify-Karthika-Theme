@@ -1,84 +1,110 @@
+
 # Shopify Karthika Theme
 
-A customized Shopify 2.0 theme designed for the **Karthika Fashion Store** — optimized for elegance, responsiveness, and performance.
+This is a customized Shopify theme named **Karthika**, based on the Dawn theme. It's tailored for fashion-focused stores with enhanced styling, layouts, and metafields.
+
+## 🛠️ Features
+
+- Based on Shopify's official Dawn theme
+- Custom sections and snippets
+- Support for metafields (e.g., sleeve type, neckline, color pattern)
+- Optimized for product storytelling
 
 ---
 
-## 🎨 Theme Overview
+## 🚀 Getting Started
 
-This theme is a custom-tailored Shopify 2.0 theme built on top of Dawn, featuring:
+Follow these steps to set up the theme locally after cloning the repository.
 
-- ⚡ Fast-loading, modern layout
-- 🧩 Modular, section-based architecture
-- 🌙 Dark Mode-ready styles
-- 🧵 Support for metafields (e.g., sleeve length, neckline, color pattern)
-- ✅ Tested on major devices and browsers
-
----
-
-## 🛠️ Installation & Usage
-
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/Karthikar123/shopify-Karthika-Theme.git
-   ```
-
-2. **Navigate into the theme folder**
-   ```bash
-   cd shopify-Karthika-Theme
-   ```
-
-3. **Login to your Shopify store**
-   ```bash
-   shopify login --store your-store-name.myshopify.com
-   ```
-
-4. **Preview or Push Theme**
-   ```bash
-   shopify theme serve   # For local preview
-   shopify theme push    # To upload the theme
-   ```
-
----
-
-## 🧾 Metafields Supported
-
-- **Sleeve Length**
-- **Neckline**
-- **Color & Pattern**
-- **Age Group**
-
-These metafields are rendered dynamically on product pages.
-
----
-
-## 📁 Folder Structure
+### 1. Clone the Repository
 
 ```bash
-.
-├── assets/         # CSS, JS, and images
-├── config/         # Theme settings (schema + presets)
-├── layout/         # theme.liquid (main layout)
-├── locales/        # Translation JSON files
-├── sections/       # Reusable page sections
-├── snippets/       # Reusable code blocks
-└── templates/      # Page templates like product.liquid
+git clone https://github.com/Karthikar123/shopify-Karthika-Theme.git
+cd shopify-Karthika-Theme
 ```
 
 ---
 
-## 🧑‍💻 Developer Info
+### 2. Install Shopify CLI (if not installed)
 
-**Author**: Karthika R  
-**Email**: [karthika.r@emvigotech.com](mailto:karthika.r@emvigotech.com)  
-**GitHub**: [github.com/Karthikar123](https://github.com/Karthikar123)
+```bash
+npm install -g @shopify/cli
+```
 
----
-
-## 📌 License
-
-This theme is provided as-is under the [MIT License](LICENSE).
+Or follow Shopify's latest installation guide here: https://shopify.dev/docs/themes/tools/cli/installation
 
 ---
 
-> ⭐ Star this repo if you find it useful! Contributions and forks are welcome.
+### 3. Authenticate Shopify CLI
+
+```bash
+shopify login --store your-store.myshopify.com
+```
+
+Replace `your-store.myshopify.com` with your actual store name.
+
+---
+
+### 4. Preview Theme Locally
+
+```bash
+shopify theme dev
+```
+
+---
+
+### 5. Push Theme to Shopify Store
+
+```bash
+shopify theme push
+```
+
+---
+
+### 6. Customize Theme via Code or Shopify Admin
+
+You can edit theme files inside these folders:
+
+- `sections/`
+- `snippets/`
+- `templates/`
+- `assets/`
+
+---
+
+## 📦 Folder Structure
+
+```
+shopify-Karthika-Theme/
+│
+├── assets/         # CSS, JS, and image files
+├── config/         # Theme settings
+├── layout/         # Theme layout files (theme.liquid)
+├── locales/        # Language translations
+├── sections/       # Custom homepage and other reusable sections
+├── snippets/       # Reusable Liquid components
+├── templates/      # Page templates (product, index, collection)
+└── README.md       # Project documentation
+```
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repo
+2. Create a new branch (`git checkout -b feature/YourFeature`)
+3. Commit your changes (`git commit -m 'Add new feature'`)
+4. Push to the branch (`git push origin feature/YourFeature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## 💬 Contact
+
+Created by [@Karthikar123](https://github.com/Karthikar123) — feel free to reach out for collaboration or questions.
