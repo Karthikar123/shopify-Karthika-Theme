@@ -1,0 +1,282 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "custom_slideshow_8rwgcf": {
+      "type": "custom-slideshow",
+      "blocks": {
+        "slide_4bKrXt": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/Group_169.png",
+            "logo": "shopify://shop_images/PawPlan_-_logo_-_main_v_with_tagline_-_beige_2x_faed499f-1725-430a-9dac-21922114fef8.png",
+            "logo_size": "medium",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "BUILD YOUR PAWPLAN",
+            "link": "shopify://products/calm-30s",
+            "button_background_type": "solid",
+            "button_background_color": "#ffa55d",
+            "button_text_color": "#ffffff",
+            "button_size": "xlarge",
+            "button_size_mobile": "medium-mobile",
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-1"
+          }
+        }
+      },
+      "block_order": [
+        "slide_4bKrXt"
+      ],
+      "disabled": true,
+      "custom_css": [],
+      "name": "t:sections.slideshow.presets.name",
+      "settings": {
+        "show_navigation_arrows": false,
+        "layout": "full_bleed",
+        "slide_height": "medium",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "image_behavior": "none",
+        "show_text_below": false,
+        "accessibility_info": ""
+      }
+    },
+    "custom_banner_YDC479": {
+      "type": "custom-banner",
+      "custom_css": [
+        ".banner.banner--medium {background-color: #5c7e63; margin-top: -30px; margin-bottom: 0px;}"
+      ],
+      "name": "Custom Banner",
+      "settings": {
+        "background_color": "#5c7e63",
+        "image_overlay_opacity": 0,
+        "layout": "full_bleed",
+        "banner_height": "medium",
+        "image_behavior": "none",
+        "logo": "shopify://shop_images/PawPlan_-_logo_-_main_v_with_tagline_-_beige_2x_faed499f-1725-430a-9dac-21922114fef8.png",
+        "logo_size": "medium",
+        "side_logo": "shopify://shop_images/PawPlan_-_illustration_-_sleeping_cat_-_2_2_2.png",
+        "side_logo_position": "bottom-right",
+        "side_logo_size": "small",
+        "heading": "",
+        "heading_size": "h1",
+        "subheading": "",
+        "button_label": "BUILD YOUR PAWPLAN",
+        "button_link": "",
+        "button_background_type": "transparent",
+        "button_background_color": "#000000",
+        "button_text_color": "#ffffff",
+        "button_size": "large",
+        "button_size_mobile": "large-mobile",
+        "box_align": "middle-center",
+        "text_alignment": "center",
+        "text_alignment_mobile": "center",
+        "color_scheme": "scheme-4",
+        "show_text_below": true
+      }
+    },
+    "custom_image_with_text_GHpYpA": {
+      "type": "custom-image-with-text",
+      "blocks": {
+        "heading_mPwYxB": {
+          "type": "heading",
+          "settings": {
+            "heading": "<strong>PawPlan Makes Pets Wellness Easy</strong>",
+            "heading_size": "h1"
+          }
+        },
+        "text_LnafCX": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>With fiea and worming treatments on repeat plus extras like treats and supplements delivered on schedule, Flexible, fuss-free, and tailored to your pet.</strong></p>",
+            "text_style": "body"
+          }
+        },
+        "button_tPQGVn": {
+          "type": "button",
+          "settings": {
+            "button_label": "JOIN NOW",
+            "button_style_secondary": false,
+            "button_size": "xlarge",
+            "button_bg_color": "#ffa55d"
+          }
+        }
+      },
+      "block_order": [
+        "heading_mPwYxB",
+        "text_LnafCX",
+        "button_tPQGVn"
+      ],
+      "custom_css": [],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/PawPlan_-_illustrations.jpg",
+        "height": "medium",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "ambient",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "center",
+        "section_color_scheme": "",
+        "color_scheme": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 48
+      }
+    },
+    "custom_featured_collection_wpgAmh": {
+      "type": "custom-featured-collection",
+      "name": "Featured Collection",
+      "settings": {
+        "collection": "all-products",
+        "products_to_show": 4,
+        "title": "<strong>Browse Our Products</strong>",
+        "description": "<p>Explore our wide range of quality products.</p>",
+        "show_description": false,
+        "show_product_description": true,
+        "heading_alignment": "center",
+        "heading_size": 42,
+        "subheading_size": 19,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_label": "BUILD YOUR PAWPLAN",
+        "button_alignment": "center",
+        "button_background_color": "#ffa55d",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "product_row_padding_top": 20,
+        "product_row_padding_bottom": 20
+      }
+    },
+    "custom_page_image_text_WLNye3": {
+      "type": "custom-page-image-text",
+      "blocks": {
+        "heading_6qGy7z": {
+          "type": "heading",
+          "settings": {
+            "heading": "",
+            "heading_size": "h1"
+          }
+        },
+        "text_GDNdxY": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Hi, I’m Bron, a Melbourne-based mum of two and proud paw parent long before that.<br/><br/>PawPlan started with a simple, slightly guilty truth: when life got busier, I found myself forgetting the important things for my dogs. The flea and worm treatments, the wellness essentials, the little rituals that used to be second nature. They were my first babies and they still deserved better.<br/><br/>PawPlan is my way of making sure our pets never slip to the bottom of the list.</p>",
+            "text_size": "xlarge"
+          }
+        },
+        "button_jTaFrb": {
+          "type": "button",
+          "settings": {
+            "button_label": "KNOW MORE",
+            "button_link": "shopify://pages/about-pawplan",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_6qGy7z",
+        "text_GDNdxY",
+        "button_jTaFrb"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/image_2_1.png",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "image_behavior": "zoom-in",
+        "section_heading": " About PawPlan",
+        "heading_font_size": 46,
+        "heading_bold": true,
+        "section_subheading": " Born from real-life pet parenting chaos.",
+        "subheading_font_size": 20,
+        "heading_alignment": "center",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "center",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "custom_newsletter_PPg3wx": {
+      "type": "custom-newsletter",
+      "blocks": {
+        "heading_mXtxmk": {
+          "type": "heading",
+          "settings": {
+            "heading": "<strong>Sign Up For Our Newsletter</strong>",
+            "heading_bold": false,
+            "heading_size": "h1"
+          }
+        },
+        "paragraph_F48HKC": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>We're an off-lead brand, no leash and no lock-in. Switch up or bow out anytime. We won't bark.</p>"
+          }
+        },
+        "email_form_TEkNkJ": {
+          "type": "email_form",
+          "settings": {
+            "button_text_bold": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_mXtxmk",
+        "paragraph_F48HKC",
+        "email_form_TEkNkJ"
+      ],
+      "name": "t:sections.newsletter.presets.name",
+      "settings": {
+        "section_size": "medium",
+        "color_scheme": "",
+        "full_width": false,
+        "padding_top": 40,
+        "padding_bottom": 52,
+        "heading_alignment": "center",
+        "spacing_heading_text": 26,
+        "spacing_text_button": 32
+      }
+    },
+    "1763528458dab73d26": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    }
+  },
+  "order": [
+    "custom_slideshow_8rwgcf",
+    "custom_banner_YDC479",
+    "custom_image_with_text_GHpYpA",
+    "custom_featured_collection_wpgAmh",
+    "custom_page_image_text_WLNye3",
+    "custom_newsletter_PPg3wx",
+    "1763528458dab73d26"
+  ]
+}

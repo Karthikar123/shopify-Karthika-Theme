@@ -1,0 +1,295 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "{{ product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "variant-picker": {
+          "type": "variant_picker",
+          "disabled": true,
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "price",
+        "description",
+        "variant-picker",
+        "buy_buttons"
+      ],
+      "settings": {
+        "pet_banner_collection": "protection",
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-1",
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "stacked",
+        "mobile_thumbnails": "show",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "1760076024ba658421": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "product_accordian_custom_NDzGCq": {
+      "type": "product-accordian-custom",
+      "blocks": {
+        "faq_4xwHd3": {
+          "type": "faq",
+          "settings": {
+            "tab_group": "tab1",
+            "question": "What is PawPlan?",
+            "answer": "PawPlan is your pet’s wellness routine on repeat. We deliver vet-approved parasite protection, supplements, and other essentials straight to your door, right when your pet needs them. No more “oops, forgot the flea meds” moments."
+          }
+        },
+        "faq_jtfcee": {
+          "type": "faq",
+          "settings": {
+            "tab_group": "tab1",
+            "question": "What makes PawPlan different?",
+            "answer": "We go out of our way to source products that work for both cats and dogs because life’s simpler when your fur family can share (except food... that’s still a no). Every product is hand-picked, vet-endorsed, and quality-tested so you can care for your pets with confidence."
+          }
+        },
+        "faq_7EyGAE": {
+          "type": "faq",
+          "settings": {
+            "tab_group": "tab1",
+            "question": "Can I use PawPlan for more than one pet?",
+            "answer": "Absolutely! You can add each of your pets to your account. Every one gets their own personalised plan based on their size, age, and needs. We’ll even remember their birthdays if you tell us because they deserve a fuss."
+          }
+        },
+        "faq_jUi9rU": {
+          "type": "faq",
+          "settings": {
+            "tab_group": "tab2",
+            "question": "Where do you ship?",
+            "answer": "We currently ship Australia-wide. Whether you’re in the city, the outback, or by the beach, we’ll get your pet’s goodies to you. (Sorry, no international deliveries just yet.)"
+          }
+        },
+        "faq_ztF8XM": {
+          "type": "faq",
+          "settings": {
+            "tab_group": "tab2",
+            "question": "How long will my order take?",
+            "answer": "We usually pack and ship within 1 to 2 business days, and deliveries arrive within 3 to 7 business days, depending on your location."
+          }
+        },
+        "faq_XjP4B4": {
+          "type": "faq",
+          "settings": {
+            "tab_group": "tab2",
+            "question": "How often will I receive deliveries?",
+            "answer": "• Flea & Worm Protection: Every three months (your next pack ships automatically when it’s time)\n• Supplements, treats & accessories: You choose monthly, quarterly, or as a one-off\n\nWe’ll group products together wherever possible so you’re not juggling multiple deliveries.\nPlus, we’ll send helpful reminders so you know when your next shipment and doses are due."
+          }
+        },
+        "faq_tTjc7f": {
+          "type": "faq",
+          "settings": {
+            "tab_group": "tab2",
+            "question": "Can I change my delivery frequency?",
+            "answer": "Yes! You can easily update your schedule in your PawPlan account. Mix and match how often each product ships. It’s totally flexible."
+          }
+        },
+        "faq_7bw6Ac": {
+          "type": "faq",
+          "settings": {
+            "tab_group": "tab2",
+            "question": "Can I track my order?",
+            "answer": "Yep! Once your order ships, you’ll get an email with a tracking link so you can follow it all the way to your doorstep (or porch, where your dog already knows it’s coming)."
+          }
+        },
+        "faq_NDgmik": {
+          "type": "faq",
+          "settings": {
+            "tab_group": "tab3",
+            "question": "When am I charged?",
+            "answer": "You’ll be charged when you place your first order, then automatically before each upcoming shipment so there are no surprises. We’ll always remind you before your next renewal."
+          }
+        },
+        "faq_DDtyxJ": {
+          "type": "faq",
+          "settings": {
+            "tab_group": "tab3",
+            "question": "What payment methods do you accept?",
+            "answer": "Visa, Mastercard, Amex, PayPal, and good old Apple Pay or Google Pay. Sadly, dog biscuits are not yet accepted as legal tender."
+          }
+        },
+        "faq_9Qmmr7": {
+          "type": "faq",
+          "settings": {
+            "tab_group": "tab3",
+            "question": "Do I get notified before renewal?",
+            "answer": "Yep! We’ll send you a quick reminder before your next order renews so you can make any changes if needed."
+          }
+        },
+        "faq_4pwebg": {
+          "type": "faq",
+          "settings": {
+            "tab_group": "tab4",
+            "question": "What if my order arrives damaged or incorrect?",
+            "answer": "We’ll fix it faster than a cat chasing a laser. Send a photo and your order number to support@pawplan.com.au and we’ll sort it right away."
+          }
+        },
+        "faq_6Bdj9y": {
+          "type": "faq",
+          "settings": {
+            "tab_group": "tab4",
+            "question": "Can I return parasite treatments?",
+            "answer": "Unfortunately, we can’t accept returns on pet medications for safety reasons but if there’s ever an issue, contact us and we’ll make it right."
+          }
+        },
+        "faq_nJ8xQz": {
+          "type": "faq",
+          "settings": {
+            "tab_group": "tab4",
+            "question": "What if my pet reacts to a product?",
+            "answer": "We’re pet parents too, and your pet’s wellbeing comes first. Stop using the product and contact us at support@pawplan.com.au so we can help find a solution and notify our supplier if needed."
+          }
+        },
+        "faq_xKmTRf": {
+          "type": "faq",
+          "settings": {
+            "tab_group": "tab5",
+            "question": "How do I update my pet’s details or address?",
+            "answer": "Easy! Log into your PawPlan account and make changes anytime. You’re in full control."
+          }
+        },
+        "faq_ixQjbP": {
+          "type": "faq",
+          "settings": {
+            "tab_group": "tab5",
+            "question": "I forgot my password help!",
+            "answer": "No stress. Hit “Forgot password” on the login page, follow the link, and you’ll be back in action in no time."
+          }
+        },
+        "faq_p86UbT": {
+          "type": "faq",
+          "settings": {
+            "tab_group": "tab5",
+            "question": "How do I contact PawPlan?",
+            "answer": "Send us a message at support@pawplan.com.au or use our contact form. We’re a small but mighty team and aim to respond within 24 hours (except when distracted by cute pet photos)."
+          }
+        },
+        "faq_rHgLB9": {
+          "type": "faq",
+          "settings": {
+            "tab_group": "tab6",
+            "question": "Do vets recommend your products?",
+            "answer": "Yes. All our protection products are APVMA-registered and used by Australian vets. We only stock trusted, high-quality brands so you can feel confident in what you’re giving your pet."
+          }
+        },
+        "faq_yMDUbr": {
+          "type": "faq",
+          "settings": {
+            "tab_group": "tab6",
+            "question": "Are your products environmentally friendly?",
+            "answer": "We’re working hard on that. Many of our items come in recyclable packaging, and we’re always looking for ways to make our deliveries greener because healthy pets deserve a healthy planet."
+          }
+        }
+      },
+      "block_order": [
+        "faq_4xwHd3",
+        "faq_jtfcee",
+        "faq_7EyGAE",
+        "faq_jUi9rU",
+        "faq_ztF8XM",
+        "faq_XjP4B4",
+        "faq_tTjc7f",
+        "faq_7bw6Ac",
+        "faq_NDgmik",
+        "faq_DDtyxJ",
+        "faq_9Qmmr7",
+        "faq_4pwebg",
+        "faq_6Bdj9y",
+        "faq_nJ8xQz",
+        "faq_xKmTRf",
+        "faq_ixQjbP",
+        "faq_p86UbT",
+        "faq_rHgLB9",
+        "faq_yMDUbr"
+      ],
+      "name": "FAQ Tabs Section",
+      "settings": {
+        "main_heading": "PawPlan FAQs",
+        "tab1_title": "About PawPlan",
+        "tab2_title": "Shipping & Delivery",
+        "tab3_title": "Payments & Billing",
+        "tab4_title": "Returns & Refunds",
+        "tab5_title": "Account & Support",
+        "tab6_title": "Other Questions"
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    }
+  },
+  "order": [
+    "main",
+    "1760076024ba658421",
+    "product_accordian_custom_NDzGCq",
+    "related-products"
+  ]
+}

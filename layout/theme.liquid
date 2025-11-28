@@ -1,0 +1,784 @@
+<!doctype html>
+<html class="js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
+    <link rel="canonical" href="{{ canonical_url }}">
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
+      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- endunless -%}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {% render 'meta-tags' %}
+
+    <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
+
+    {%- if settings.animations_reveal_on_scroll -%}
+      <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
+    {{ content_for_header }}
+
+    {%- liquid
+      assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+
+    {% style %}
+      {{ settings.type_body_font | font_face: font_display: 'swap' }}
+      {{ body_font_bold | font_face: font_display: 'swap' }}
+      {{ body_font_italic | font_face: font_display: 'swap' }}
+      {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+      {{ settings.type_header_font | font_face: font_display: 'swap' }}
+
+      {% for scheme in settings.color_schemes -%}
+        {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
+        {% if forloop.index == 1 -%}
+          :root,
+        {%- endif %}
+        .color-{{ scheme.id }} {
+          --color-background: {{ scheme.settings.background.red }},{{ scheme.settings.background.green }},{{ scheme.settings.background.blue }};
+        {% if scheme.settings.background_gradient != empty %}
+          --gradient-background: {{ scheme.settings.background_gradient }};
+        {% else %}
+          --gradient-background: {{ scheme.settings.background }};
+        {% endif %}
+
+        {% liquid
+          assign background_color = scheme.settings.background
+          assign background_color_brightness = background_color | color_brightness
+          if background_color_brightness <= 26
+            assign background_color_contrast = background_color | color_lighten: 50
+          elsif background_color_brightness <= 65
+            assign background_color_contrast = background_color | color_lighten: 5
+          else
+            assign background_color_contrast = background_color | color_darken: 25
+          endif
+        %}
+
+        --color-foreground: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
+        --color-background-contrast: {{ background_color_contrast.red }},{{ background_color_contrast.green }},{{ background_color_contrast.blue }};
+        --color-shadow: {{ scheme.settings.shadow.red }},{{ scheme.settings.shadow.green }},{{ scheme.settings.shadow.blue }};
+        --color-button: {{ scheme.settings.button.red }},{{ scheme.settings.button.green }},{{ scheme.settings.button.blue }};
+        --color-button-text: {{ scheme.settings.button_label.red }},{{ scheme.settings.button_label.green }},{{ scheme.settings.button_label.blue }};
+        --color-secondary-button: {{ scheme.settings.background.red }},{{ scheme.settings.background.green }},{{ scheme.settings.background.blue }};
+        --color-secondary-button-text: {{ scheme.settings.secondary_button_label.red }},{{ scheme.settings.secondary_button_label.green }},{{ scheme.settings.secondary_button_label.blue }};
+        --color-link: {{ scheme.settings.secondary_button_label.red }},{{ scheme.settings.secondary_button_label.green }},{{ scheme.settings.secondary_button_label.blue }};
+        --color-badge-foreground: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
+        --color-badge-background: {{ scheme.settings.background.red }},{{ scheme.settings.background.green }},{{ scheme.settings.background.blue }};
+        --color-badge-border: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
+        --payment-terms-background-color: rgb({{ scheme.settings.background.rgb }});
+      }
+      {% endfor %}
+
+      {{ scheme_classes | prepend: 'body' }} {
+        color: rgba(var(--color-foreground), 0.75);
+        background-color: rgb(var(--color-background));
+      }
+
+      :root {
+        --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+        --font-body-style: {{ settings.type_body_font.style }};
+        --font-body-weight: {{ settings.type_body_font.weight }};
+        --font-body-weight-bold: {{ settings.type_body_font.weight | plus: 300 | at_most: 1000 }};
+
+        --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+        --font-heading-style: {{ settings.type_header_font.style }};
+        --font-heading-weight: {{ settings.type_header_font.weight }};
+
+        --font-body-scale: {{ settings.body_scale | divided_by: 100.0 }};
+        --font-heading-scale: {{ settings.heading_scale | times: 1.0 | divided_by: settings.body_scale }};
+
+        --media-padding: {{ settings.media_padding }}px;
+        --media-border-opacity: {{ settings.media_border_opacity | divided_by: 100.0 }};
+        --media-border-width: {{ settings.media_border_thickness }}px;
+        --media-radius: {{ settings.media_radius }}px;
+        --media-shadow-opacity: {{ settings.media_shadow_opacity | divided_by: 100.0 }};
+        --media-shadow-horizontal-offset: {{ settings.media_shadow_horizontal_offset }}px;
+        --media-shadow-vertical-offset: {{ settings.media_shadow_vertical_offset }}px;
+        --media-shadow-blur-radius: {{ settings.media_shadow_blur }}px;
+        --media-shadow-visible: {% if settings.media_shadow_opacity > 0 %}1{% else %}0{% endif %};
+
+        --page-width: {{ settings.page_width | divided_by: 10 }}rem;
+        --page-width-margin: {% if settings.page_width == '1600' %}2{% else %}0{% endif %}rem;
+
+        --product-card-image-padding: {{ settings.card_image_padding | divided_by: 10.0 }}rem;
+        --product-card-corner-radius: {{ settings.card_corner_radius | divided_by: 10.0 }}rem;
+        --product-card-text-alignment: {{ settings.card_text_alignment }};
+        --product-card-border-width: {{ settings.card_border_thickness | divided_by: 10.0 }}rem;
+        --product-card-border-opacity: {{ settings.card_border_opacity | divided_by: 100.0 }};
+        --product-card-shadow-opacity: {{ settings.card_shadow_opacity | divided_by: 100.0 }};
+        --product-card-shadow-visible: {% if settings.card_shadow_opacity > 0 %}1{% else %}0{% endif %};
+        --product-card-shadow-horizontal-offset: {{ settings.card_shadow_horizontal_offset | divided_by: 10.0 }}rem;
+        --product-card-shadow-vertical-offset: {{ settings.card_shadow_vertical_offset | divided_by: 10.0 }}rem;
+        --product-card-shadow-blur-radius: {{ settings.card_shadow_blur | divided_by: 10.0 }}rem;
+
+        --collection-card-image-padding: {{ settings.collection_card_image_padding | divided_by: 10.0 }}rem;
+        --collection-card-corner-radius: {{ settings.collection_card_corner_radius | divided_by: 10.0 }}rem;
+        --collection-card-text-alignment: {{ settings.collection_card_text_alignment }};
+        --collection-card-border-width: {{ settings.collection_card_border_thickness | divided_by: 10.0 }}rem;
+        --collection-card-border-opacity: {{ settings.collection_card_border_opacity | divided_by: 100.0 }};
+        --collection-card-shadow-opacity: {{ settings.collection_card_shadow_opacity | divided_by: 100.0 }};
+        --collection-card-shadow-visible: {% if settings.collection_card_shadow_opacity > 0 %}1{% else %}0{% endif %};
+        --collection-card-shadow-horizontal-offset: {{ settings.collection_card_shadow_horizontal_offset | divided_by: 10.0 }}rem;
+        --collection-card-shadow-vertical-offset: {{ settings.collection_card_shadow_vertical_offset | divided_by: 10.0 }}rem;
+        --collection-card-shadow-blur-radius: {{ settings.collection_card_shadow_blur | divided_by: 10.0 }}rem;
+
+        --blog-card-image-padding: {{ settings.blog_card_image_padding | divided_by: 10.0 }}rem;
+        --blog-card-corner-radius: {{ settings.blog_card_corner_radius | divided_by: 10.0 }}rem;
+        --blog-card-text-alignment: {{ settings.blog_card_text_alignment }};
+        --blog-card-border-width: {{ settings.blog_card_border_thickness | divided_by: 10.0 }}rem;
+        --blog-card-border-opacity: {{ settings.blog_card_border_opacity | divided_by: 100.0 }};
+        --blog-card-shadow-opacity: {{ settings.blog_card_shadow_opacity | divided_by: 100.0 }};
+        --blog-card-shadow-visible: {% if settings.blog_card_shadow_opacity > 0 %}1{% else %}0{% endif %};
+        --blog-card-shadow-horizontal-offset: {{ settings.blog_card_shadow_horizontal_offset | divided_by: 10.0 }}rem;
+        --blog-card-shadow-vertical-offset: {{ settings.blog_card_shadow_vertical_offset | divided_by: 10.0 }}rem;
+        --blog-card-shadow-blur-radius: {{ settings.blog_card_shadow_blur | divided_by: 10.0 }}rem;
+
+        --badge-corner-radius: {{ settings.badge_corner_radius | divided_by: 10.0 }}rem;
+
+        --popup-border-width: {{ settings.popup_border_thickness }}px;
+        --popup-border-opacity: {{ settings.popup_border_opacity | divided_by: 100.0 }};
+        --popup-corner-radius: {{ settings.popup_corner_radius }}px;
+        --popup-shadow-opacity: {{ settings.popup_shadow_opacity | divided_by: 100.0 }};
+        --popup-shadow-horizontal-offset: {{ settings.popup_shadow_horizontal_offset }}px;
+        --popup-shadow-vertical-offset: {{ settings.popup_shadow_vertical_offset }}px;
+        --popup-shadow-blur-radius: {{ settings.popup_shadow_blur }}px;
+
+        --drawer-border-width: {{ settings.drawer_border_thickness }}px;
+        --drawer-border-opacity: {{ settings.drawer_border_opacity | divided_by: 100.0 }};
+        --drawer-shadow-opacity: {{ settings.drawer_shadow_opacity | divided_by: 100.0 }};
+        --drawer-shadow-horizontal-offset: {{ settings.drawer_shadow_horizontal_offset }}px;
+        --drawer-shadow-vertical-offset: {{ settings.drawer_shadow_vertical_offset }}px;
+        --drawer-shadow-blur-radius: {{ settings.drawer_shadow_blur }}px;
+
+        --spacing-sections-desktop: {{ settings.spacing_sections }}px;
+        --spacing-sections-mobile: {% if settings.spacing_sections < 24 %}{{ settings.spacing_sections }}{% else %}{{ settings.spacing_sections | times: 0.7 | round | at_least: 20 }}{% endif %}px;
+
+        --grid-desktop-vertical-spacing: {{ settings.spacing_grid_vertical }}px;
+        --grid-desktop-horizontal-spacing: {{ settings.spacing_grid_horizontal }}px;
+        --grid-mobile-vertical-spacing: {{ settings.spacing_grid_vertical | divided_by: 2 }}px;
+        --grid-mobile-horizontal-spacing: {{ settings.spacing_grid_horizontal | divided_by: 2 }}px;
+
+        --text-boxes-border-opacity: {{ settings.text_boxes_border_opacity | divided_by: 100.0 }};
+        --text-boxes-border-width: {{ settings.text_boxes_border_thickness }}px;
+        --text-boxes-radius: {{ settings.text_boxes_radius }}px;
+        --text-boxes-shadow-opacity: {{ settings.text_boxes_shadow_opacity | divided_by: 100.0 }};
+        --text-boxes-shadow-visible: {% if settings.text_boxes_shadow_opacity > 0 %}1{% else %}0{% endif %};
+        --text-boxes-shadow-horizontal-offset: {{ settings.text_boxes_shadow_horizontal_offset }}px;
+        --text-boxes-shadow-vertical-offset: {{ settings.text_boxes_shadow_vertical_offset }}px;
+        --text-boxes-shadow-blur-radius: {{ settings.text_boxes_shadow_blur }}px;
+
+        --buttons-radius: {{ settings.buttons_radius }}px;
+        --buttons-radius-outset: {% if settings.buttons_radius > 0 %}{{ settings.buttons_radius | plus: settings.buttons_border_thickness }}{% else %}0{% endif %}px;
+        --buttons-border-width: {% if settings.buttons_border_opacity > 0 %}{{ settings.buttons_border_thickness }}{% else %}0{% endif %}px;
+        --buttons-border-opacity: {{ settings.buttons_border_opacity | divided_by: 100.0 }};
+        --buttons-shadow-opacity: {{ settings.buttons_shadow_opacity | divided_by: 100.0 }};
+        --buttons-shadow-visible: {% if settings.buttons_shadow_opacity > 0 %}1{% else %}0{% endif %};
+        --buttons-shadow-horizontal-offset: {{ settings.buttons_shadow_horizontal_offset }}px;
+        --buttons-shadow-vertical-offset: {{ settings.buttons_shadow_vertical_offset }}px;
+        --buttons-shadow-blur-radius: {{ settings.buttons_shadow_blur }}px;
+        --buttons-border-offset: {% if settings.buttons_radius > 0 or settings.buttons_shadow_opacity > 0 %}0.3{% else %}0{% endif %}px;
+
+        --inputs-radius: {{ settings.inputs_radius }}px;
+        --inputs-border-width: {{ settings.inputs_border_thickness }}px;
+        --inputs-border-opacity: {{ settings.inputs_border_opacity | divided_by: 100.0 }};
+        --inputs-shadow-opacity: {{ settings.inputs_shadow_opacity | divided_by: 100.0 }};
+        --inputs-shadow-horizontal-offset: {{ settings.inputs_shadow_horizontal_offset }}px;
+        --inputs-margin-offset: {% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_opacity > 0 %}{{ settings.inputs_shadow_vertical_offset | abs }}{% else %}0{% endif %}px;
+        --inputs-shadow-vertical-offset: {{ settings.inputs_shadow_vertical_offset }}px;
+        --inputs-shadow-blur-radius: {{ settings.inputs_shadow_blur }}px;
+        --inputs-radius-outset: {% if settings.inputs_radius > 0 %}{{ settings.inputs_radius | plus: settings.inputs_border_thickness }}{% else %}0{% endif %}px;
+
+        --variant-pills-radius: {{ settings.variant_pills_radius }}px;
+        --variant-pills-border-width: {{ settings.variant_pills_border_thickness }}px;
+        --variant-pills-border-opacity: {{ settings.variant_pills_border_opacity | divided_by: 100.0 }};
+        --variant-pills-shadow-opacity: {{ settings.variant_pills_shadow_opacity | divided_by: 100.0 }};
+        --variant-pills-shadow-horizontal-offset: {{ settings.variant_pills_shadow_horizontal_offset }}px;
+        --variant-pills-shadow-vertical-offset: {{ settings.variant_pills_shadow_vertical_offset }}px;
+        --variant-pills-shadow-blur-radius: {{ settings.variant_pills_shadow_blur }}px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: inherit;
+      }
+
+      html {
+        box-sizing: border-box;
+        font-size: calc(var(--font-body-scale) * 62.5%);
+        height: 100%;
+      }
+
+      body {
+        display: grid;
+        grid-template-rows: auto auto 1fr auto;
+        grid-template-columns: 100%;
+        min-height: 100%;
+        margin: 0;
+        font-size: 1.5rem;
+        letter-spacing: 0.06rem;
+        line-height: calc(1 + 0.8 / var(--font-body-scale));
+        font-family: var(--font-body-family);
+        font-style: var(--font-body-style);
+        font-weight: var(--font-body-weight);
+      }
+
+      @media screen and (min-width: 750px) {
+        body {
+          font-size: 1.6rem;
+        }
+      }
+    {% endstyle %}
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
+
+    {%- if settings.cart_type == 'drawer' -%}
+      {{ 'component-cart-drawer.css' | asset_url | stylesheet_tag }}
+      {{ 'component-cart.css' | asset_url | stylesheet_tag }}
+      {{ 'component-totals.css' | asset_url | stylesheet_tag }}
+      {{ 'component-price.css' | asset_url | stylesheet_tag }}
+      {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
+
+    {%- unless settings.type_body_font.system? -%}
+      {% comment %}theme-check-disable AssetPreload{% endcomment %}
+      <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
+      {% comment %}theme-check-enable AssetPreload{% endcomment %}
+    {%- endunless -%}
+    {%- unless settings.type_header_font.system? -%}
+      {% comment %}theme-check-disable AssetPreload{% endcomment %}
+      <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
+      {% comment %}theme-check-enable AssetPreload{% endcomment %}
+    {%- endunless -%}
+
+    {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
+      {{ 'component-localization-form.css' | asset_url | stylesheet_tag: preload: true }}
+      <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
+    {%- if settings.predictive_search_enabled -%}
+      <link
+        rel="stylesheet"
+        href="{{ 'component-predictive-search.css' | asset_url }}"
+        media="print"
+        onload="this.media='all'"
+      >
+    {%- endif -%}
+
+    <script>
+      if (Shopify.designMode) {
+        document.documentElement.classList.add('shopify-design-mode');
+      }
+    </script>
+  </head>
+
+  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+    <a class="skip-to-content-link button visually-hidden" href="#MainContent">
+      {{ 'accessibility.skip_to_text' | t }}
+    </a>
+
+    {%- if settings.cart_type == 'drawer' -%}
+      {%- render 'cart-drawer' -%}
+    {%- endif -%}
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    <ul hidden>
+      <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
+      <li id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</li>
+    </ul>
+
+    <script>
+      window.shopUrl = '{{ request.origin }}';
+      window.routes = {
+        cart_add_url: '{{ routes.cart_add_url }}',
+        cart_change_url: '{{ routes.cart_change_url }}',
+        cart_update_url: '{{ routes.cart_update_url }}',
+        cart_url: '{{ routes.cart_url }}',
+        predictive_search_url: '{{ routes.predictive_search_url }}',
+      };
+
+      window.cartStrings = {
+        error: `{{ 'sections.cart.cart_error' | t }}`,
+        quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`,
+      };
+
+      window.variantStrings = {
+        addToCart: `{{ 'products.product.add_to_cart' | t }}`,
+        soldOut: `{{ 'products.product.sold_out' | t }}`,
+        unavailable: `{{ 'products.product.unavailable' | t }}`,
+        unavailable_with_option: `{{ 'products.product.value_unavailable' | t: option_value: '[value]' }}`,
+      };
+
+      window.quickOrderListStrings = {
+        itemsAdded: `{{ 'sections.quick_order_list.items_added.other' | t: quantity: '[quantity]' }}`,
+        itemAdded: `{{ 'sections.quick_order_list.items_added.one' | t: quantity: '[quantity]' }}`,
+        itemsRemoved: `{{ 'sections.quick_order_list.items_removed.other' | t: quantity: '[quantity]' }}`,
+        itemRemoved: `{{ 'sections.quick_order_list.items_removed.one' | t: quantity: '[quantity]' }}`,
+        viewCart: `{{- 'sections.quick_order_list.view_cart' | t -}}`,
+        each: `{{- 'sections.quick_order_list.each' | t: money: '[money]' }}`,
+        min_error: `{{- 'sections.quick_order_list.min_error' | t: min: '[min]' }}`,
+        max_error: `{{- 'sections.quick_order_list.max_error' | t: max: '[max]' }}`,
+        step_error: `{{- 'sections.quick_order_list.step_error' | t: step: '[step]' }}`,
+      };
+
+      window.accessibilityStrings = {
+        imageAvailable: `{{ 'products.product.media.image_available' | t: index: '[index]' }}`,
+        shareSuccess: `{{ 'general.share.success_message' | t }}`,
+        pauseSlideshow: `{{ 'sections.slideshow.pause_slideshow' | t }}`,
+        playSlideshow: `{{ 'sections.slideshow.play_slideshow' | t }}`,
+        recipientFormExpanded: `{{ 'recipient.form.expanded' | t }}`,
+        recipientFormCollapsed: `{{ 'recipient.form.collapsed' | t }}`,
+        countrySelectorSearchCount: `{{ 'localization.country_results_count' | t: count: '[count]' }}`,
+      };
+    </script>
+
+    {%- if settings.predictive_search_enabled -%}
+      <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
+    {%- if settings.cart_type == 'drawer' -%}
+      <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
+
+
+<!-- Rebuy Global Script -->
+<script src="https://cdn.rebuyengine.com/onsite/js/rebuy.js" async></script>
+
+<!-- Manual placement for Rebuy widget 252262 -->
+<div id="rebuy-widget-252262"></div>
+
+
+
+
+
+
+
+<script>
+  (function () {
+    // --- utility: safely close any Rebuy pop-up/modal ---
+    function closeRebuyPopup() {
+      try {
+        // If a Rebuy modal API exists, try that first
+        if (window.Rebuy && Rebuy.Modal && typeof Rebuy.Modal.close === 'function') {
+          Rebuy.Modal.close();
+          return;
+        }
+      } catch (e) {}
+
+      // Fallbacks: click common close buttons if present
+      var closeBtns = document.querySelectorAll(
+        '[data-rebuy-close], .rebuy-close, .rebuy-modal__close, .rebuy-popup__close'
+      );
+      closeBtns.forEach(function (btn) { try { btn.click(); } catch (e) {} });
+
+      // Last resort: hide typical modal/overlay elements
+      var modals = document.querySelectorAll(
+        '.rebuy-modal, .rebuy-popup, .rebuy-widget-modal, .rebuy-overlay'
+      );
+      modals.forEach(function (el) {
+        el.classList.add('is-closing');
+        el.style.display = 'none';
+        el.setAttribute('aria-hidden', 'true');
+      });
+    }
+
+    function ready(fn) {
+      if (document.readyState !== 'loading') fn();
+      else document.addEventListener('DOMContentLoaded', fn);
+    }
+
+    ready(function () {
+      var tries = 0;
+      var poll = setInterval(function () {
+        tries++;
+        if (window.Rebuy && window.Rebuy.SmartCart) {
+          clearInterval(poll);
+          wireUp();
+        }
+        if (tries > 50) clearInterval(poll); // ~5s safety stop
+      }, 100);
+    });
+
+    function wireUp() {
+      var SmartCart = window.Rebuy.SmartCart;
+
+      // We want the pop-up to show first (cart should NOT auto-open on add)
+      SmartCart.skip_open = true;
+
+      // Track per "pop-up cycle"
+      var openedThisCycle = false;
+
+      function resetCycle() {
+        openedThisCycle = false;
+        // Ensure pop-up gets priority on the next ATC
+        SmartCart.skip_open = true;
+      }
+
+      // When the pop-up shows, start a new "cycle"
+      document.addEventListener('rebuy.show', resetCycle);
+
+      function openCartAndClosePopup() {
+        if (openedThisCycle) return;
+        openedThisCycle = true;
+
+        // Open Smart Cart NOW
+        try { SmartCart.show(); } catch (e) {}
+
+        // Restore default behavior after we’ve opened it once
+        SmartCart.skip_open = false;
+
+        // Close the pop-up
+        closeRebuyPopup();
+
+        // In case a new pop-up appears later (next ATC), we’ll reset on next 'rebuy.show'
+      }
+
+      // If shopper adds an item from the pop-up → open cart & close pop-up
+      document.addEventListener('rebuy.add', openCartAndClosePopup);
+
+      // If shopper dismisses the pop-up → open cart & close pop-up
+      document.addEventListener('rebuy.hide', openCartAndClosePopup);
+    }
+  })();
+</script>
+{% comment %} Include custom popup for pet details - loads on all pages {% endcomment %}
+{% render 'custom-popup' %}
+<script>
+  // Newsletter Form Validation - Runs on all pages
+  console.log('=== NEWSLETTER VALIDATION SCRIPT LOADED IN THEME.LIQUID ===');
+  
+  (function() {
+    var initializedForms = new Set();
+    
+    function initNewsletterValidation(formEl) {
+      // Use form element itself as key if no ID
+      var formKey = formEl.id || formEl.getAttribute('id') || 'form-' + Math.random().toString(36).substr(2, 9);
+      if (initializedForms.has(formKey)) {
+        console.log('[Newsletter Validation] Form already initialized:', formKey);
+        return;
+      }
+      
+      console.log('[Newsletter Validation] Initializing form:', formKey, formEl);
+      initializedForms.add(formKey);
+      
+      // Skip captcha forms
+      if (formKey === 'captcha_form' || formEl.id === 'captcha_form' || formEl.classList.contains('captcha')) {
+        console.log('[Newsletter Validation] Skipping captcha form:', formKey);
+        initializedForms.delete(formKey);
+        return;
+      }
+      
+      // Extract section ID from form ID (format: NewsletterForm--sectionId)
+      var sectionId = '';
+      var formId = formEl.id || formEl.getAttribute('id') || '';
+      if (formId && formId.indexOf('NewsletterForm--') !== -1) {
+        sectionId = formId.replace('NewsletterForm--', '');
+      } else {
+        // Try to get section ID from parent section element
+        var sectionRoot = formEl.closest('[id^="shopify-section-"]');
+        if (sectionRoot) {
+          sectionId = sectionRoot.id.replace('shopify-section-', '');
+        }
+      }
+      
+      var buttonId = 'Subscribe--' + sectionId;
+      var errorId = 'Newsletter-inline-error--' + sectionId;
+      
+      console.log('[Newsletter Validation] Section ID:', sectionId, 'Form ID:', formId, 'Form Key:', formKey);
+      
+      var emailInput = formEl.querySelector('[data-newsletter-input="' + sectionId + '"]') || formEl.querySelector('input[name="contact[email]"]');
+      var submitButton = document.getElementById(buttonId) || formEl.querySelector('[data-newsletter-button="' + sectionId + '"]') || formEl.querySelector('button[type="button"]') || formEl.querySelector('button[type="submit"]');
+      var inlineError = document.getElementById(errorId) || formEl.querySelector('[id^="Newsletter-inline-error--"]');
+      
+      if (!emailInput || !submitButton || !inlineError) {
+        console.error('[Newsletter Validation] Missing elements for form:', formKey, {
+          emailInput: !!emailInput,
+          submitButton: !!submitButton,
+          inlineError: !!inlineError,
+          form: formEl,
+          sectionId: sectionId
+        });
+        initializedForms.delete(formKey);
+        return;
+      }
+      
+      console.log('[Newsletter Validation] All elements found for form:', formId);
+      
+      // Email validation pattern
+      var emailPattern = /^[A-Za-z0-9](?!.*\.\.)[A-Za-z0-9._%+-]*[A-Za-z0-9_%+-]@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+      
+      function validateEmail() {
+        var emailValue = (emailInput.value || '').trim();
+        emailInput.value = emailValue;
+        
+        if (!emailValue) {
+          // Hide inline error - only show browser-native validation
+          if (inlineError) {
+            inlineError.hidden = true;
+            inlineError.textContent = '';
+          }
+          emailInput.removeAttribute('aria-invalid');
+          emailInput.setCustomValidity('Please enter email');
+          // Keep button enabled so clicks work - we'll prevent submission instead
+          submitButton.disabled = false;
+          submitButton.removeAttribute('disabled');
+          submitButton.classList.add('button-disabled-visual');
+          console.log('[Newsletter Validation] Empty - Button enabled but visually disabled');
+          return false;
+        }
+        
+        var isValid = emailPattern.test(emailValue);
+        console.log('[Newsletter Validation] Email:', emailValue, 'Valid:', isValid);
+        
+        if (!isValid) {
+          emailInput.setCustomValidity('Please enter a valid email address.');
+          // Hide inline error - only show browser-native validation
+          if (inlineError) {
+            inlineError.hidden = true;
+            inlineError.textContent = '';
+          }
+          emailInput.removeAttribute('aria-invalid');
+          // Keep button enabled so clicks work - we'll prevent submission instead
+          submitButton.disabled = false;
+          submitButton.removeAttribute('disabled');
+          submitButton.classList.add('button-disabled-visual');
+          console.log('[Newsletter Validation] INVALID - Button enabled but visually disabled');
+          return false;
+        } else {
+          emailInput.setCustomValidity('');
+          // Hide inline error
+          if (inlineError) {
+            inlineError.hidden = true;
+            inlineError.textContent = '';
+          }
+          emailInput.removeAttribute('aria-invalid');
+          submitButton.disabled = false;
+          submitButton.removeAttribute('disabled');
+          submitButton.classList.remove('button-disabled-visual');
+          console.log('[Newsletter Validation] VALID - ENABLED');
+          return true;
+        }
+      }
+      
+      // Prevent form submission
+      function preventSubmit(e) {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+        }
+        
+        var emailValue = (emailInput.value || '').trim();
+        console.log('[Newsletter Validation] SUBMIT ATTEMPTED - email:', emailValue);
+        
+        if (!emailValue || !validateEmail()) {
+          console.warn('[Newsletter Validation] BLOCKED SUBMISSION');
+          // Show browser-native validation message
+          emailInput.reportValidity();
+          emailInput.focus();
+          return false;
+        }
+        
+        console.log('[Newsletter Validation] ALLOWING SUBMISSION');
+        return true;
+      }
+      
+      // Set form onsubmit
+      formEl.onsubmit = preventSubmit;
+      formEl.addEventListener('submit', preventSubmit, true);
+      
+      // Handle button click - button is always enabled so clicks work
+      submitButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        
+        console.log('[Newsletter Validation] BUTTON CLICKED');
+        
+        var emailValue = (emailInput.value || '').trim();
+        
+        // Check if email is empty first
+        if (!emailValue) {
+          console.warn('[Newsletter Validation] Empty email - BLOCKED');
+          emailInput.setCustomValidity('Please enter email');
+          emailInput.reportValidity();
+          emailInput.focus();
+          return false;
+        }
+        
+        // Validate email format
+        if (!validateEmail()) {
+          console.warn('[Newsletter Validation] Invalid email - BLOCKED');
+          emailInput.reportValidity();
+          emailInput.focus();
+          return false;
+        }
+        
+        // Only submit if email is valid
+        console.log('[Newsletter Validation] Submitting form...');
+        formEl.onsubmit = null;
+        formEl.removeEventListener('submit', preventSubmit, true);
+        formEl.submit();
+        return false;
+      });
+      
+      // Ensure button is enabled initially (remove disabled attribute if present)
+      submitButton.disabled = false;
+      submitButton.removeAttribute('disabled');
+      
+      // Initial validation
+      validateEmail();
+      
+      // Real-time validation
+      emailInput.addEventListener('input', validateEmail);
+      emailInput.addEventListener('blur', validateEmail);
+      emailInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          submitButton.click();
+        }
+      });
+      
+      console.log('[Newsletter Validation] SETUP COMPLETE for form:', formKey, 'Button disabled:', submitButton.disabled);
+    }
+    
+    function findAndInitNewsletterForms() {
+      // Find all newsletter forms - try multiple selectors
+      var forms = [];
+      var allForms = document.querySelectorAll('form');
+      console.log('[Newsletter Validation] Total forms on page:', allForms.length);
+      
+      // Method 1: Forms with newsletter-form class and NewsletterForm-- ID
+      var forms1 = document.querySelectorAll('form.newsletter-form[id^="NewsletterForm--"]');
+      console.log('[Newsletter Validation] Method 1 found:', forms1.length);
+      forms1.forEach(function(f) { if (!forms.includes(f)) forms.push(f); });
+      
+      // Method 2: Any form with NewsletterForm-- ID
+      var forms2 = document.querySelectorAll('form[id^="NewsletterForm--"]');
+      console.log('[Newsletter Validation] Method 2 found:', forms2.length);
+      forms2.forEach(function(f) { if (!forms.includes(f)) forms.push(f); });
+      
+      // Method 3: Forms with newsletter-form class
+      var forms3 = document.querySelectorAll('form.newsletter-form');
+      console.log('[Newsletter Validation] Method 3 found:', forms3.length);
+      forms3.forEach(function(f) { if (!forms.includes(f)) forms.push(f); });
+      
+      // Method 4: Forms containing newsletter input with data attribute
+      var emailInputs = document.querySelectorAll('input[name="contact[email]"][data-newsletter-input]');
+      console.log('[Newsletter Validation] Method 4 found inputs:', emailInputs.length);
+      emailInputs.forEach(function(input) {
+        var form = input.closest('form');
+        if (form && !forms.includes(form)) forms.push(form);
+      });
+      
+      // Method 5: Forms with contact[tags]=newsletter hidden input (MOST RELIABLE)
+      var hiddenInputs = document.querySelectorAll('input[name="contact[tags]"]');
+      console.log('[Newsletter Validation] Method 5 checking', hiddenInputs.length, 'hidden inputs');
+      hiddenInputs.forEach(function(input) {
+        if (input.value === 'newsletter') {
+          var form = input.closest('form');
+          // Skip captcha forms - only add newsletter forms
+          if (form && form.id !== 'captcha_form' && !form.classList.contains('captcha') && form.id.indexOf('captcha') === -1) {
+            // Only add if form has newsletter-form class or NewsletterForm-- ID
+            if (form.classList.contains('newsletter-form') || (form.id && form.id.indexOf('NewsletterForm--') !== -1)) {
+              if (!forms.includes(form)) {
+                console.log('[Newsletter Validation] Found newsletter form via hidden input:', form.id, form);
+                forms.push(form);
+              }
+            } else {
+              console.log('[Newsletter Validation] Skipping form (not newsletter-form):', form.id, form.className);
+            }
+          } else {
+            console.log('[Newsletter Validation] Skipping captcha form:', form ? form.id : 'no form');
+          }
+        }
+      });
+      
+      // Method 6: Forms with contact[email] input (fallback)
+      if (forms.length === 0) {
+        var emailInputsAll = document.querySelectorAll('input[name="contact[email]"]');
+        console.log('[Newsletter Validation] Method 6 found', emailInputsAll.length, 'email inputs');
+        emailInputsAll.forEach(function(input) {
+          var form = input.closest('form');
+          if (form && form.action && (form.action.indexOf('contact') !== -1 || form.action.indexOf('customer') !== -1)) {
+            if (!forms.includes(form)) {
+              console.log('[Newsletter Validation] Found potential newsletter form:', form);
+              forms.push(form);
+            }
+          }
+        });
+      }
+      
+      console.log('[Newsletter Validation] Total newsletter forms found:', forms.length);
+      if (forms.length > 0) {
+        forms.forEach(function(form, index) {
+          console.log('[Newsletter Validation] Form', index + 1, ':', form.id, form.className, form);
+        });
+      }
+      
+      forms.forEach(function(form) {
+        initNewsletterValidation(form);
+      });
+    }
+    
+    // Run immediately
+    findAndInitNewsletterForms();
+    
+    // Also run on DOM ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', findAndInitNewsletterForms);
+    }
+    
+    // Retry after delays for dynamically loaded content
+    setTimeout(findAndInitNewsletterForms, 100);
+    setTimeout(findAndInitNewsletterForms, 500);
+    setTimeout(findAndInitNewsletterForms, 1000);
+    
+    // Listen for Shopify section loads (theme editor)
+    document.addEventListener('shopify:section:load', function(event) {
+      setTimeout(findAndInitNewsletterForms, 100);
+    });
+  })();
+</script>
+
+
+  </body>
+</html>

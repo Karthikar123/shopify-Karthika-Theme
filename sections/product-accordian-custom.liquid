@@ -1,0 +1,215 @@
+{% comment %}
+  FAQ Tabs Section – supports 6 tabs, left-aligned, clean UX
+{% endcomment %}
+
+<section class='faq-tabs-wrapper'>
+  <div class='faq-heading'>
+    <h2>{{ section.settings.main_heading }}</h2>
+  </div>
+
+  <div class='faq-tabs-content'>
+    <div class='faq-tabs-align-left'>
+      <div class='faq-tabs-menu'>
+        {% if section.settings.tab1_title != blank %}
+          <button class='faq-tab{% if true %} active{% endif %}' data-tab='tab1'>{{ section.settings.tab1_title }}</button>
+        {% endif %}
+        {% if section.settings.tab2_title != blank %}
+          <button class='faq-tab' data-tab='tab2'>{{ section.settings.tab2_title }}</button>
+        {% endif %}
+        {% if section.settings.tab3_title != blank %}
+          <button class='faq-tab' data-tab='tab3'>{{ section.settings.tab3_title }}</button>
+        {% endif %}
+        {% if section.settings.tab4_title != blank %}
+          <button class='faq-tab' data-tab='tab4'>{{ section.settings.tab4_title }}</button>
+        {% endif %}
+        {% if section.settings.tab5_title != blank %}
+          <button class='faq-tab' data-tab='tab5'>{{ section.settings.tab5_title }}</button>
+        {% endif %}
+        {% if section.settings.tab6_title != blank %}
+          <button class='faq-tab' data-tab='tab6'>{{ section.settings.tab6_title }}</button>
+        {% endif %}
+      </div>
+    </div>
+
+    {% assign tab_ids = "tab1,tab2,tab3,tab4,tab5,tab6" | split: "," %}
+    {% for tid in tab_ids %}
+      <div class='faq-tab-content{% if forloop.first %} active{% endif %}' id='{{ tid }}'>
+        {% for block in section.blocks %}
+          {% if block.settings.tab_group == tid %}
+            <div class='faq-accordion-item' {{ block.shopify_attributes }}>
+              <div class='faq-accordion-question'>{{ block.settings.question }}</div>
+              <div class='faq-accordion-answer'>{{ block.settings.answer }}</div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<style>
+  .faq-tabs-wrapper { margin-top: 0; padding-top: 50px; }
+  .faq-heading { text-align: center; margin-bottom: 40px; }
+  .faq-heading h2 { font-size: 32px; font-weight: bold; margin-top: 0; }
+
+  .faq-tabs-content { max-width: 1324px; margin: 0 auto; padding: 0 20px; }
+
+  .faq-tabs-align-left { text-align: left; }
+
+  .faq-tabs-menu {
+    display: inline-flex;
+    flex-wrap: wrap; /* allow 6 tabs to wrap nicely */
+    border-bottom: 1px solid #ccc;
+    gap: 24px 40px; /* row gap then column gap */
+    margin-bottom: 20px;
+    padding-left: 0;
+    box-shadow: none;
+  }
+
+  .faq-tab {
+    padding: 10px 0;
+    margin: 0;
+    border: none;
+    background: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    outline: none;
+    box-shadow: none;
+    font-size: 20px;
+    color: #5C7E63;
+    opacity: 0.7;
+  }
+  .faq-tab.active { border-bottom: 3px solid #ffa55d; color: #ffa55d; opacity: 1; }
+  .faq-tab:focus { outline: none; box-shadow: none; }
+
+  .faq-tab-content { display: none; }
+  .faq-tab-content.active { display: block; }
+
+  .faq-accordion-item { border-bottom: 1px solid #ccc; margin: 0; }
+  .faq-accordion-question {
+    padding: 20px 0;
+    cursor: pointer;
+    position: relative;
+    font-size: 16px;
+    color: #ffa55d;
+    font-weight: 600;
+  }
+
+  .faq-accordion-question::after {
+    content: '';
+    position: absolute; right: 12px; top: 0; bottom: 0; margin: auto;
+    height: 20px; width: 1.5px; background: #ffa55d; transition: all .4s ease-in-out;
+    transform: rotate(90deg);
+  }
+  .faq-accordion-question::before {
+    content: '';
+    position: absolute; right: 11px; top: 0; bottom: 0; margin: auto;
+    height: 20px; width: 2.5px; background: #ffa55d; transition: all .4s ease-in-out;
+    transform: rotate(0deg);
+  }
+  .faq-accordion-question.active::before { transform: rotate(90deg); }
+
+  .faq-accordion-answer { padding: 10px 0 30px 0; display: none; font-size: 16px; color: #5C7E63; }
+  .faq-accordion-answer.active { display: block; }
+
+  @media (max-width: 1024px) {
+    .faq-tabs-align-left { display: flex; justify-content: center; }
+    .faq-tabs-menu { margin-bottom: 40px; }
+    .faq-accordion-question { padding: 20px 40px 20px 0; }
+  }
+  @media (max-width: 800px) {
+    .faq-tab { font-size: 16px; }
+  }
+  @media (max-width: 767px) {
+    .faq-tab { font-size: 16px; padding: 10px 0; }
+    .faq-tabs-menu { width: 100%; gap: 10px 20px; }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const tabs = Array.from(document.querySelectorAll('.faq-tab'));
+    const contents = Array.from(document.querySelectorAll('.faq-tab-content'));
+
+    // If no visible tab is marked active (e.g., tab1 title hidden), activate the first visible tab.
+    const hasActive = tabs.some(t => t.classList.contains('active'));
+    if (!hasActive && tabs.length) {
+      tabs[0].classList.add('active');
+      const firstId = tabs[0].dataset.tab;
+      const firstContent = document.getElementById(firstId);
+      if (firstContent) firstContent.classList.add('active');
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach((t) => t.classList.remove('active'));
+        contents.forEach((c) => c.classList.remove('active'));
+        tab.classList.add('active');
+        const pane = document.getElementById(tab.dataset.tab);
+        if (pane) pane.classList.add('active');
+      });
+    });
+
+    // Accordion behavior (open one at a time within the current tab)
+    document.querySelectorAll('.faq-accordion-question').forEach((q) => {
+      q.addEventListener('click', () => {
+        const isActive = q.classList.contains('active');
+        const container = q.closest('.faq-tab-content');
+        if (!container) return;
+
+        container.querySelectorAll('.faq-accordion-question').forEach((qq) => qq.classList.remove('active'));
+        container.querySelectorAll('.faq-accordion-answer').forEach((aa) => aa.classList.remove('active'));
+
+        if (!isActive) {
+          q.classList.add('active');
+          const answer = q.nextElementSibling;
+          if (answer) answer.classList.add('active');
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "FAQ Tabs Section",
+  "settings": [
+    { "type": "text", "id": "main_heading", "label": "Main Heading", "default": "Frequently Asked Questions" },
+
+    { "type": "text", "id": "tab1_title", "label": "Tab 1 Title", "default": "General" },
+    { "type": "text", "id": "tab2_title", "label": "Tab 2 Title", "default": "Payments & Financing" },
+    { "type": "text", "id": "tab3_title", "label": "Tab 3 Title", "default": "Warranty & Returns" },
+    { "type": "text", "id": "tab4_title", "label": "Tab 4 Title" },
+    { "type": "text", "id": "tab5_title", "label": "Tab 5 Title" },
+    { "type": "text", "id": "tab6_title", "label": "Tab 6 Title" }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "tab_group",
+          "label": "Tab Group",
+          "options": [
+            { "value": "tab1", "label": "Tab 1" },
+            { "value": "tab2", "label": "Tab 2" },
+            { "value": "tab3", "label": "Tab 3" },
+            { "value": "tab4", "label": "Tab 4" },
+            { "value": "tab5", "label": "Tab 5" },
+            { "value": "tab6", "label": "Tab 6" }
+          ],
+          "default": "tab1"
+        },
+        { "type": "text", "id": "question", "label": "Question" },
+        { "type": "textarea", "id": "answer", "label": "Answer" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "FAQ Tabs Section" }
+  ]
+}
+{% endschema %}

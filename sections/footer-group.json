@@ -1,0 +1,71 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "text_HR7NYr": {
+          "type": "text",
+          "settings": {
+            "heading": "<strong>PawPlan</strong>",
+            "subtext": "<p>With flea and worming treatments on repeat plus extras like treats and supplements delivered on schedule. Flexible, fuss-free, and tailored to your pet.</p>"
+          }
+        },
+        "link_list_FCXU3b": {
+          "type": "link_list",
+          "settings": {
+            "heading": "<strong>Shop</strong>",
+            "menu": "footer-shop"
+          }
+        },
+        "link_list_mVQf9F": {
+          "type": "link_list",
+          "settings": {
+            "heading": "<strong>Company</strong>",
+            "menu": "footer-company-1"
+          }
+        },
+        "link_list_J6hLX7": {
+          "type": "link_list",
+          "settings": {
+            "heading": "<strong>Company</strong>",
+            "menu": "footer-company-2"
+          }
+        }
+      },
+      "block_order": [
+        "text_HR7NYr",
+        "link_list_FCXU3b",
+        "link_list_mVQf9F",
+        "link_list_J6hLX7"
+      ],
+      "settings": {
+        "color_scheme": "scheme-3",
+        "newsletter_enable": false,
+        "newsletter_heading": "Subscribe to our emails",
+        "enable_follow_on_shop": true,
+        "show_social": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "payment_enable": false,
+        "show_policy": true,
+        "margin_top": 68,
+        "padding_top": 56,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

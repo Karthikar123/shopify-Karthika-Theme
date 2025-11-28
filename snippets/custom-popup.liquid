@@ -1,0 +1,2677 @@
+{% comment %} Support both section rendering and global rendering {% endcomment %}
+{% if section.id %}
+  {% assign popup_id = section.id %}
+{% else %}
+  {% assign popup_id = 'global' %}
+{% endif %}
+
+<div class="popup-overlay" id="popup-{{ popup_id }}">
+<div class="popup-container-1">
+<button class="popup-close" data-close-popup>&times;</button>
+<div class="form-wrapper">
+<div class="form-page active-page" data-page="1">
+<h2 class="popup-heading">Tell Us About Your Pet 🐾</h2>
+<p class="popup-subheading">Help us create the perfect profile for your furry friend.</p>
+
+
+<div class="form-section">
+<h3>Choose Your Pet</h3>
+<div class="pet-type-selector">
+<label class="pet-card pet-card--dog">
+<input type="radio" name="pet_type" value="dog" required>
+<div class="pet-card-inner">
+<div class="pet-image-placeholder">
+<img src="https://cdn.shopify.com/s/files/1/0944/6699/8564/files/PawPlan_-_illustration_-_running_dog_2x_2.png?v=1758099679" alt="Dog" class="pet-image">
+</div>
+<p class="pet-label">Good Dog</p>
+</div>
+</label>
+<label class="pet-card pet-card--cat">
+<input type="radio" name="pet_type" value="cat" required>
+<div class="pet-card-inner">
+<div class="pet-image-placeholder">
+<img src="https://cdn.shopify.com/s/files/1/0944/6699/8564/files/PawPlan_-_illustration_-_sleeping_cat_2x_295f4c1c-e4df-4dd0-a1cd-3e3ad4061714.png?v=1757668407" alt="Cat" class="pet-image">
+</div>
+<p class="pet-label">Cool Cat</p>
+</div>
+</label>
+</div>
+</div>
+
+</div>
+
+
+<div class="form-page" data-page="2">
+<h2 class="popup-heading">Pet Details</h2>
+<p class="popup-subheading">Let's get some basic information.</p>
+
+
+<div class="form-section">
+<div class="form-group">
+<label for="pet-name">Pet's Name</label>
+<input type="text" id="pet-name" name="pet-name" required maxlength="50" placeholder="e.g., Buddy">
+</div>
+
+
+<div class="form-group">
+ <label for="pet-birthdate">Date of Birth</label>
+ <div class="date-field">
+   <input
+     type="date"
+     id="pet-birthdate"
+     name="pet-birthdate"
+     required
+     max=""
+     inputmode="none"
+     autocomplete="bday"
+     aria-describedby="pet-birthdate-help"
+   />
+   <!-- Decorative green calendar icon -->
+   <svg class="calendar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+     <path fill="#5c7e63" d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7zm12 6v12H5V8h14zm-9 3h2v2H10v-2zm4 0h2v2h-2v-2zm-4 4h2v2H10v-2zm4 4h2v2h-2v-2z"/>
+   </svg>
+   <!-- Fake placeholder to mimic other fields -->
+   <span class="date-fake-placeholder">Select date</span>
+ </div>
+ <small id="pet-birthdate-help" class="field-help">Please choose your pet’s birthdate (past dates only).</small>
+</div>
+
+
+</div>
+</div>
+
+
+<div class="form-page" data-page="3">
+<h2 class="popup-heading">Physical Info</h2>
+<p class="popup-subheading">This helps us tailor our recommendations.</p>
+
+
+<div class="form-section">
+
+
+<div class="form-group">
+<label for="pet-weight">Weight (kg)</label>
+<input
+type="number"
+id="pet-weight"
+name="pet-weight"
+required
+inputmode="decimal"
+step="0.1"
+min="0.1"
+max="100"
+placeholder="e.g., 15.2"
+aria-describedby="pet-weight-help"
+>
+<small id="pet-weight-help" class="field-help">Allowed: 0.1 kg to 100 kg (one decimal place)</small>
+</div>
+
+
+<div class="form-group">
+<label for="pet-breed">Breed</label>
+<select id="pet-breed" name="pet-breed" required>
+<option value="">Select a breed</option>
+</select>
+<input type="text" id="other-breed" name="other-breed" class="other-breed-input" placeholder="Type your pet's breed" style="display: none;">
+</div>
+</div>
+</div>
+
+
+
+
+<!-- NEW: Slide 4 — Location -->
+<div class="form-page" data-page="4">
+ <h2 class="popup-heading">Location</h2>
+ <p class="popup-subheading">Tell us where to send your plan</p>
+
+
+ <div class="form-section">
+
+
+   <div class="form-group">
+     <label for="address-street">Street address</label>
+     <input
+       type="text"
+       id="address-street"
+       name="address-street"
+       required
+       placeholder="e.g., 123 Bark Ave"
+       autocomplete="address-line1"
+     >
+     <small class="field-help">Australian addresses only.</small>
+   </div>
+
+
+   <div class="form-group">
+     <label for="address-suburb">Suburb / City</label>
+     <input
+       type="text"
+       id="address-suburb"
+       name="address-suburb"
+       required
+       placeholder="e.g., Sydney"
+       autocomplete="address-level2"
+     >
+   </div>
+
+
+   <div class="form-group">
+     <label for="address-state">State / Territory</label>
+     <select id="address-state" name="address-state" required autocomplete="address-level1">
+       <option value="">Select state</option>
+       <option value="ACT">ACT</option>
+       <option value="NSW">NSW</option>
+       <option value="NT">NT</option>
+       <option value="QLD">QLD</option>
+       <option value="SA">SA</option>
+       <option value="TAS">TAS</option>
+       <option value="VIC">VIC</option>
+       <option value="WA">WA</option>
+     </select>
+   </div>
+
+
+   <div class="form-group">
+     <label for="address-postcode">Postcode</label>
+  
+ <input
+ type="text"
+ id="address-postcode"
+ name="address-postcode"
+ required
+ inputmode="numeric"
+ pattern="[0-9]{4}"
+ maxlength="4"
+ placeholder="e.g., 2000"
+ aria-describedby="postcode-help"
+ autocomplete="postal-code"
+ title="4-digit Australian postcode (e.g., 2000)"
+/>
+
+
+     <small id="postcode-help" class="field-help">Must be a 4-digit Australian postcode.</small>
+   </div>
+
+
+ </div>
+</div>
+
+
+
+<div class="form-page" data-page="5">
+  <div class="success-message">
+    <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+      <circle class="success-circle" cx="26" cy="26" r="25" fill="none"/>
+      <path class="success-tick" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+    </svg>
+    <h2 class="popup-heading">All Set! 🎉</h2>
+    <p class="popup-subheading">
+      Thanks for sharing your pet's details with us. We'll send you a special surprise in your inbox soon!
+    </p>
+
+    <div class="success-actions">
+      <button
+        type="button"
+        class="btn-next success-continue"
+        data-reco-button
+      >
+        Continue
+      </button>
+    </div>
+  </div>
+</div>
+
+
+</div>
+
+
+<div class="form-actions">
+<button type="button" class="btn-back" data-action="back" style="display: none;">Back</button>
+<button type="button" class="btn-next" data-action="next">Next</button>
+{% comment %} <button type="submit" class="btn-continue" style="display: none;">Submit</button> {% endcomment %}
+<button type="button" class="btn-continue" style="display: none;">Submit</button>
+
+
+</div>
+</div>
+</div>
+
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+
+/* Base styles for the popup overlay */
+.popup-overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+backdrop-filter: blur(8px); /* Frosted glass effect */
+-webkit-backdrop-filter: blur(8px);
+display: none;
+justify-content: center;
+align-items: center;
+z-index: 99999; /* Ensure it's on top of everything */
+opacity: 0;
+transition: opacity 0.4s ease;
+overflow-y: auto; /* Allow scrolling if needed */
+}
+
+
+.popup-overlay.active {
+display: flex;
+opacity: 1;
+animation: fadeIn 0.3s forwards;
+}
+
+.popup-container-1 {
+    background-image: url(https://cdn.shopify.com/s/files/1/0944/6699/8564/files/Group_32.png?v=1763641367);
+    max-width: 800px;
+    width: 100%;
+    padding: 40px;
+    border-radius: 30px;
+    position: relative;
+box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    color: #5c7e63;
+}
+/* Popup container styles */
+.popup-container {
+background-image:url('https://cdn.shopify.com/s/files/1/0944/6699/8564/files/Group_32.png?v=1763641367');
+{% comment %} background: #ffffff; {% endcomment %}
+border-radius: 20px;
+width: 90%;
+max-width: 800px;
+min-width: 320px; /* Ensure minimum width */
+max-height: 90vh; /* Leave some space at top and bottom */
+height: auto;
+overflow-y: auto;
+overflow-x: hidden;
+padding: 4rem;
+margin: 2rem auto; /* Center with margin */
+position: relative;
+box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+color: #5c7e63; /* Eucalyptus Green for general text */
+animation: slideIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.popup-container > * {
+ position: relative;     /* ← put content above tint */
+ z-index: 1;
+}
+
+
+
+
+.date-field { position: relative; }
+
+
+.date-fake-placeholder {
+ position: absolute;
+ left: 1rem;
+ top: 50%;
+ transform: translateY(-50%);
+ color: #a7a192;
+ pointer-events: none;
+ font-size: 1.2rem;
+}
+
+
+/* Hide the fake placeholder when the date has a value or is focused */
+.date-field input[type="date"]:focus + .calendar-icon + .date-fake-placeholder,
+.date-field input[type="date"].has-value + .calendar-icon + .date-fake-placeholder {
+ display: none;
+}
+
+
+/* (Optional) red highlight on invalid fields — matches your other invalid styling */
+.invalid-input {
+ border-color: #dc3545 !important;
+ box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.15);
+}
+
+
+/* No ::before overlay needed for solid background */
+.popup-container::before {
+display: none;
+}
+/* Keyframe Animations */
+@keyframes fadeIn {
+from { opacity: 0; }
+to { opacity: 1; }
+}
+
+
+@keyframes slideIn {
+from { transform: translateY(50px) scale(0.95); opacity: 0; }
+to { transform: translateY(0) scale(1); opacity: 1; }
+}
+/* The progress bar CSS has been removed */
+.progress-bar-container {
+display: none;
+}
+.progress-bar {
+display: none;
+}
+
+
+/* Close button styling */
+.popup-close {
+position: absolute;
+top: 1.5rem;
+right: 1.5rem;
+background: none;
+border: none;
+font-size: 3rem;
+cursor: pointer;
+color: #5c7e63;
+transition: transform 0.2s ease, color 0.2s ease;
+z-index: 3;
+}
+
+
+.popup-close:hover {
+color: #ffa55d;
+transform: rotate(90deg);
+}
+
+
+/* Heading and subheading */
+.popup-heading {
+font-size: 3rem;
+font-weight: 900;
+color: #5c7e63;
+text-align: center;
+margin-bottom: 0.75rem;
+}
+
+
+.popup-subheading {
+font-size: 1.5rem;
+color: #7b947f;
+margin-bottom: 3rem;
+text-align: center;
+font-weight: 600;
+}
+
+
+.form-section input {
+color: #ffa55d;
+font-weight: 600;
+}
+
+
+/* Form page animations */
+.form-wrapper {
+position: relative;
+min-height: 400px;
+z-index: 1;
+}
+
+
+.form-page {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+opacity: 0;
+pointer-events: none;
+transform: translateX(20px);
+transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+
+.form-page.active-page {
+opacity: 1;
+pointer-events: auto;
+transform: translateX(0);
+position: relative;
+height: auto;
+}
+
+
+/* Form sections */
+.form-section {
+border-bottom: 1px solid #dcd5b9;
+padding-bottom: 2.5rem;
+}
+
+
+.form-section:last-of-type {
+border-bottom: none;
+padding-bottom: 0;
+}
+
+
+
+.form-group {
+margin-bottom: 1.8rem;
+}
+
+
+.form-group label {
+display: block;
+margin-bottom: 0.85rem;
+color: #5c7e63;
+font-size: 1.5rem;
+font-weight: 700;
+}
+
+
+.form-group input,
+.form-group select {
+font-family: 'Poppins', sans-serif;
+width: 100%;
+padding: 1.35rem;
+border: 1px solid #dcd5b9;
+border-radius: 8px;
+font-size: 1.2rem;
+transition: border-color 0.3s ease, box-shadow 0.3s ease;
+color: #ffa55d !important;
+
+}
+input:-internal-autofill-selected{
+  color:#ffa55d !important;
+}
+
+
+.form-group input:focus,
+.form-group select:focus {
+outline: none;
+border-color: #5c7e63;
+box-shadow: 0 0 0 4px rgba(92, 126, 99, 0.15);
+}
+
+
+.form-group input::placeholder {
+color: #a7a192;
+}
+/* Additional styling for the dropdown */
+.form-group select {
+-webkit-appearance: none;
+-moz-appearance: none;
+appearance: none;
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%235c7e63' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+background-repeat: no-repeat;
+background-position: right 1.25rem center;
+background-size: 1.5rem;
+padding-right: 3.5rem;
+cursor: pointer;
+}
+.form-group select:focus {
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23ffa55d' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+}
+
+
+
+
+/* === DATE FIELD WITH GREEN ICON (aligned + larger) === */
+.date-field {
+position: relative;
+}
+
+
+.date-field input[type="date"] {
+width: 100%;
+padding-right: 3rem; /* space for icon */
+cursor: pointer;
+font-family: 'Poppins', sans-serif;
+}
+
+
+/* Keep native picker clickable and aligned */
+/* Hide the native calendar button (Chrome/Safari) */
+.date-field input[type="date"]::-webkit-calendar-picker-indicator {
+opacity: 0 !important;
+pointer-events: none !important;
+-webkit-appearance: none;
+appearance: none;
+position: absolute; /* keep layout stable */
+right: 0.8rem;
+top: 50%;
+transform: translateY(-50%);
+width: 0;
+height: 0;
+z-index: 0;
+}
+
+
+/* Decorative green calendar icon (visual only) */
+.calendar-icon {
+position: absolute;
+right: 0.8rem;
+top: 50%;
+transform: translateY(-50%);
+width: 22px;
+height: 22px;
+fill: #5c7e63;
+/* was: pointer-events: none; -> remove it */
+cursor: pointer; /* add this */
+z-index: 1;
+}
+
+
+/* Mobile tweak */
+@media (max-width: 600px) {
+.calendar-icon {
+right: 0.6rem;
+width: 20px;
+height: 20px;
+}
+}
+/* Hide native dd/mm/yy text when empty (Chromium/WebKit) */
+.date-field input[type="date"]::-webkit-datetime-edit {
+ color: transparent;
+}
+/* Show native text when focused or when a value exists */
+.date-field input[type="date"]:focus::-webkit-datetime-edit,
+.date-field input[type="date"].has-value::-webkit-datetime-edit {
+ color: inherit;
+}
+
+
+/* (Optional) extra safety if some browsers split the parts */
+.date-field input[type="date"]::-webkit-datetime-edit-year-field,
+.date-field input[type="date"]::-webkit-datetime-edit-month-field,
+.date-field input[type="date"]::-webkit-datetime-edit-day-field {
+ color: transparent;
+}
+.date-field input[type="date"]:focus::-webkit-datetime-edit-year-field,
+.date-field input[type="date"]:focus::-webkit-datetime-edit-month-field,
+.date-field input[type="date"]:focus::-webkit-datetime-edit-day-field,
+.date-field input[type="date"].has-value::-webkit-datetime-edit-year-field,
+.date-field input[type="date"].has-value::-webkit-datetime-edit-month-field,
+.date-field input[type="date"].has-value::-webkit-datetime-edit-day-field {
+ color: inherit;
+}
+
+
+/* Pet card selection */
+.pet-type-selector {
+display: flex;
+justify-content: center;
+gap: 2.5rem;
+margin-top: 2.5rem;
+perspective: 1000px; /* Establishes a 3D space for the flip animation */
+}
+
+
+.pet-card {
+display: block;
+cursor: pointer;
+border: 2px solid #dcd5b9;
+border-radius: 12px;
+overflow: hidden;
+text-align: center;
+padding: 2rem;
+width: 180px;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+position: relative;
+}
+
+
+.pet-card:hover {
+transform: translateY(-5px) scale(1.02);
+box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+.pet-card-inner {
+transition: transform 0.5s;
+transform-style: preserve-3d;
+}
+.pet-card:hover .pet-card-inner {
+transform: rotateY(10deg) scale(1.05);
+}
+
+
+.pet-card input[type="radio"] {
+position: absolute;
+opacity: 0;
+pointer-events: none;
+}
+
+
+.pet-card:has(input[type="radio"]:checked) {
+border-color: #5c7e63;
+background-color: #ffffff;
+box-shadow: 0 0 0 4px rgba(92, 126, 99, 0.2);
+}
+{% comment %}
+.pet-image-placeholder {
+width: 150px;
+height: 150px;
+background-color: #dcd5b9;
+border-radius: 8px;
+margin: 0 auto 1.2rem;
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: hidden;
+} {% endcomment %}
+
+
+.pet-image-placeholder {
+width: 124px;
+height: 150px;
+background-color: whitesmoke;
+border-radius: 8px;
+margin: 0 auto 1.2rem;
+display: flex
+;
+align-items: stretch;
+justify-content: flex-start;
+overflow: auto;
+}
+
+
+
+
+
+
+.pet-image-placeholder img {
+width: 100%;
+height: 100%;
+object-fit: contain;
+display: block;
+background-color: white;
+}
+
+
+.pet-label {
+font-family: 'Poppins', sans-serif;
+font-size: 1.4rem;
+font-weight: 600;
+color: #5c7e63;
+}
+
+
+/* Success message styling */
+.success-message {
+text-align: center;
+padding: 2.5rem 0;
+}
+
+
+.success-icon {
+width: 100px;
+height: 100px;
+margin: 0 auto 2rem;
+}
+
+
+.success-circle {
+stroke-dasharray: 166;
+stroke-dashoffset: 166;
+stroke-width: 2;
+stroke-miterlimit: 10;
+stroke: #5c7e63;
+fill: none;
+animation: stroke-circle 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+
+.success-tick {
+stroke-dasharray: 48;
+stroke-dashoffset: 48;
+stroke-width: 2;
+stroke-miterlimit: 10;
+stroke: #fff;
+stroke-linecap: round;
+stroke-linejoin: round;
+fill: none;
+animation: stroke-tick 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+
+@keyframes stroke-circle {
+100% {
+stroke-dashoffset: 0;
+fill: #5c7e63;
+}
+}
+
+
+@keyframes stroke-tick {
+100% {
+stroke-dashoffset: 0;
+}
+}
+
+
+/* Buttons */
+.form-actions {
+position: relative;
+display: flex;
+justify-content: space-between;
+gap: 1.5rem;
+margin-top: 2.5rem;
+z-index: 1;
+}
+
+
+.btn-back,
+.btn-next,
+.btn-continue {
+font-family: 'Poppins', sans-serif;
+padding: 1.1rem 2.2rem;
+border-radius: 50px;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s ease;
+font-size: 1.2rem;
+flex-grow: 1;
+text-align: center;
+border: none;
+}
+
+
+.btn-back {
+background: #dcd5b9;
+color: #5c7e63;
+}
+
+
+.btn-back:hover {
+background: #a7a192;
+transform: translateY(-2px);
+}
+
+
+.btn-next,
+.btn-continue {
+background: #5c7e63;
+color: #f2ecd4;
+}
+
+
+.btn-next:hover,
+.btn-continue:hover {
+background: #ffa55d;
+transform: translateY(-2px) scale(1.02);
+}
+
+
+/* Pet delete button styling */
+.pet-info-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 0.5rem;
+}
+
+
+.pet-delete-btn {
+background: none;
+border: none;
+cursor: pointer;
+padding: 0.25rem;
+border-radius: 4px;
+color: #dc3545;
+transition: all 0.2s ease;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+
+.pet-delete-btn:hover {
+background-color: #f8d7da;
+color: #721c24;
+transform: scale(1.1);
+}
+
+
+.pet-delete-btn:active {
+transform: scale(0.95);
+}
+
+
+.pet-delete-btn .svg-wrapper {
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+.pet-type-selector {
+flex-direction: column;
+align-items: center;
+gap: 1.5rem; /* smaller gap */
+}
+
+
+.pet-card {
+width: 100%; /* full width */
+max-width: 280px; /* limit so it doesn't stretch too wide */
+padding: 1.5rem; /* reduce padding */
+}
+
+
+.pet-image-placeholder {
+width: 120px;
+height: 120px;
+}
+
+
+.pet-label {
+font-size: 1.2rem;
+}
+
+
+.pet-info-header {
+flex-direction: column;
+align-items: flex-start;
+gap: 0.5rem;
+}
+
+
+.pet-delete-btn {
+align-self: flex-end;
+}
+}
+
+
+.btn-back,
+.btn-next,
+.btn-continue {
+text-transform: uppercase;
+}
+
+
+.field-help {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-accent-orange);
+}
+
+
+
+
+
+
+.success-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  margin-top: 2rem;
+}
+
+
+/* Removed duplicate popup-container styles - main styles are above */
+
+
+/* Responsive styles for consistent display across all pages */
+@media screen and (max-width: 990px) {
+ .popup-container {
+   width: 95% !important;
+   padding: 3rem 2rem !important;
+   max-height: 90vh !important;
+ }
+}
+
+@media screen and (max-width: 749px) {
+ .popup-container {
+   width: 95% !important;
+   padding: 2rem 1.5rem !important;
+   max-height: 95vh !important;
+   border-radius: 15px !important;
+ }
+ 
+ .popup-heading {
+   font-size: 2rem !important;
+ }
+ 
+ .popup-subheading {
+   font-size: 1.2rem !important;
+ }
+}
+.popup-container {
+      min-height: calc(100vh - 280px);
+    margin: 0 auto;
+
+}
+
+@media screen and (max-width: 480px) {
+ .popup-container {
+   width: 98% !important;
+   padding: 1.5rem 1rem !important;
+ }
+}
+.popup-container {
+  
+    max-height: fit-content;
+    height: 100vh;}
+    
+@media screen and (max-width: 749px) {
+    .popup-container {
+        
+        max-height: fit-content;}
+
+
+
+/* Default dropdown text & options color */
+.form-group select {
+  color: #5c7e63;         /* dropdown text (when nothing selected / default) */
+}
+
+/* All option text inside the dropdown */
+.form-group select option {
+  color: #5c7e63;
+}
+
+/* After user selects a value → show selected text in orange */
+.form-group select.has-value {
+  color: #ffa55d;
+  font-weight: 600;       /* optional, to match your inputs */
+}
+
+</style>
+
+
+<script>
+// --- COOKIE HELPER FUNCTIONS ---
+function setCookie(name, value, days) {
+const d = new Date();
+d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+const expires = "expires=" + d.toUTCString();
+document.cookie = name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/";
+}
+
+
+function getCookie(name) {
+const cname = name + "=";
+const decodedCookie = decodeURIComponent(document.cookie);
+const ca = decodedCookie.split(';');
+for (let i = 0; i < ca.length; i++) {
+let c = ca[i].trim();
+if (c.indexOf(cname) === 0) return c.substring(cname.length, c.length);
+}
+return "";
+}
+
+
+// --- POPUP LOGIC ---
+document.addEventListener('DOMContentLoaded', function() {
+document.querySelectorAll('.popup-overlay').forEach(function(popupOverlay) {
+const popupId = popupOverlay.getAttribute('id');
+const popupTrigger = document.querySelector(`[data-popup-target="${popupId}"]`);
+const closeButtons = popupOverlay.querySelectorAll('[data-close-popup]');
+const pages = popupOverlay.querySelectorAll('.form-page');
+// Only use the navigation buttons in the footer (form-actions)
+const backBtn = popupOverlay.querySelector('.form-actions .btn-back[data-action="back"]');
+const nextBtn = popupOverlay.querySelector('.form-actions .btn-next[data-action="next"]');
+const submitBtn = popupOverlay.querySelector('.form-actions .btn-continue');
+
+const successContinueBtn = popupOverlay.querySelector('[data-reco-button]');
+
+
+const petTypeRadios = popupOverlay.querySelectorAll('input[name="pet_type"]');
+const breedSelect = popupOverlay.querySelector('#pet-breed');
+const otherBreedInput = popupOverlay.querySelector('#other-breed');
+const petNameInput = popupOverlay.querySelector('#pet-name');
+
+if (petNameInput) {
+  petNameInput.addEventListener('input', () => {
+    if (petNameInput.value.length > 50) {
+      petNameInput.value = petNameInput.value.slice(0, 50);
+    }
+  });
+}
+
+
+
+const petBirthdateInput = popupOverlay.querySelector('#pet-birthdate');
+
+
+
+
+
+
+
+
+// NEW: Location inputs
+const addressStreetInput  = popupOverlay.querySelector('#address-street');
+const addressSuburbInput  = popupOverlay.querySelector('#address-suburb');
+const addressStateSelect  = popupOverlay.querySelector('#address-state');
+const addressPostcodeInput = popupOverlay.querySelector('#address-postcode');
+
+// === DROPDOWN COLOR TOGGLE (default #5c7e63, selected #ffa55d) ===
+const popupSelects = popupOverlay.querySelectorAll('.form-group select');
+
+popupSelects.forEach((selectEl) => {
+  const updateSelectColor = () => {
+    if (selectEl.value && selectEl.value !== '') {
+      selectEl.classList.add('has-value');   // selected → orange text
+    } else {
+      selectEl.classList.remove('has-value'); // placeholder / empty → green text
+    }
+  };
+
+  // Run once on load (in case value is pre-filled)
+  updateSelectColor();
+
+  // Update when user changes selection
+  selectEl.addEventListener('change', updateSelectColor);
+});
+
+
+
+// Ensure correct pattern even if a stale instance is rendered
+if (addressPostcodeInput) {
+ addressPostcodeInput.setAttribute('pattern', '[0-9]{4}');
+ addressPostcodeInput.setAttribute('title', '4-digit Australian postcode (e.g., 2000)');
+}
+
+
+// NEW: enforce AU postcode (4 digits)
+if (addressPostcodeInput) {
+ const enforcePostcode = () => {
+   const v = addressPostcodeInput.value.trim();
+   if (!/^\d{4}$/.test(v)) {
+     addressPostcodeInput.setCustomValidity('Please enter a 4-digit Australian postcode.');
+     addressPostcodeInput.classList.add('invalid-input');
+   } else {
+     addressPostcodeInput.setCustomValidity('');
+     addressPostcodeInput.classList.remove('invalid-input');
+   }
+ };
+ addressPostcodeInput.addEventListener('input', () => {
+   // keep only digits and cap at 4
+   addressPostcodeInput.value = addressPostcodeInput.value.replace(/\D/g, '').slice(0, 4);
+   enforcePostcode();
+ });
+ addressPostcodeInput.addEventListener('blur', enforcePostcode);
+}
+
+
+
+
+if (petBirthdateInput) {
+ let userInteracted = false;
+
+
+ const validateDob = () => {
+   // Only validate *after* user has interacted
+   if (!userInteracted) return;
+
+
+   if (!petBirthdateInput.value) {
+     petBirthdateInput.setCustomValidity('Please select your pet’s birthdate.');
+     petBirthdateInput.classList.add('invalid-input');
+     petBirthdateInput.classList.remove('has-value');
+   } else {
+     petBirthdateInput.setCustomValidity('');
+     petBirthdateInput.classList.remove('invalid-input');
+     petBirthdateInput.classList.add('has-value');
+   }
+ };
+
+
+ // Mark user interaction and validate when they do something
+ ['input', 'change', 'blur'].forEach(evt => {
+   petBirthdateInput.addEventListener(evt, () => {
+     userInteracted = true;
+     validateDob();
+   });
+ });
+}
+
+
+
+
+// Open the native date picker on click / keyboard
+if (petBirthdateInput) {
+const openPicker = () => {
+if (typeof petBirthdateInput.showPicker === 'function') {
+// Chrome / Edge / Safari 16.4+
+petBirthdateInput.showPicker();
+} else {
+// Fallback for older browsers (iOS opens on focus)
+petBirthdateInput.focus();
+}
+};
+
+
+// Click anywhere on the input opens the picker
+petBirthdateInput.addEventListener('click', openPicker);
+
+
+// Enter/Space also open it for accessibility
+petBirthdateInput.addEventListener('keydown', (e) => {
+if (e.key === 'Enter' || e.key === ' ') {
+e.preventDefault();
+openPicker();
+}
+});
+}
+// Make the green calendar icon open the native date picker
+const calendarIcon = popupOverlay.querySelector('.date-field .calendar-icon');
+if (petBirthdateInput && calendarIcon) {
+calendarIcon.addEventListener('click', (e) => {
+e.preventDefault();
+e.stopPropagation();
+if (typeof petBirthdateInput.showPicker === 'function') {
+petBirthdateInput.showPicker();
+} else {
+petBirthdateInput.focus();
+}
+});
+}
+
+
+const petWeightInput = popupOverlay.querySelector('#pet-weight');
+
+
+// --- Weight field hardening: block invalid characters and clamp to 0.1–100
+if (petWeightInput) {
+// Block e/E, +, - in number inputs (browsers allow scientific notation by default)
+petWeightInput.addEventListener('keydown', (e) => {
+const blocked = ['e', 'E', '+', '-'];
+if (blocked.includes(e.key)) {
+e.preventDefault();
+}
+});
+
+
+// Ensure only one decimal point max
+petWeightInput.addEventListener('beforeinput', (e) => {
+if (e.data === '.' && e.target.value.includes('.')) {
+e.preventDefault();
+}
+});
+
+
+// On input: strip invalid chars, clamp to min/max, normalize to one decimal
+petWeightInput.addEventListener('input', () => {
+// Remove any non-digit/non-dot characters just in case
+let v = petWeightInput.value.replace(/[^\d.]/g, '');
+
+
+// If starts with dot, prefix 0
+if (v.startsWith('.')) v = '0' + v;
+
+
+// Keep only first dot
+const firstDot = v.indexOf('.');
+if (firstDot !== -1) {
+v = v.slice(0, firstDot + 1) + v.slice(firstDot + 1).replace(/\./g, '');
+}
+
+
+// Limit to one decimal place if present
+if (firstDot !== -1) {
+const [intPart, decPart] = v.split('.');
+v = intPart + '.' + (decPart ?? '').slice(0, 1);
+}
+
+
+// Clamp to range if numeric
+let num = parseFloat(v);
+if (!isNaN(num)) {
+if (num < 0.1) num = 0.1;
+if (num > 100) num = 100;
+// Keep at most 1 decimal place
+v = num.toFixed(v.includes('.') ? 1 : 0);
+}
+
+
+petWeightInput.value = v;
+});
+
+
+// On blur: final validity check using native constraints
+petWeightInput.addEventListener('blur', () => {
+const num = parseFloat(petWeightInput.value);
+if (isNaN(num)) return;
+if (num < 0.1) petWeightInput.value = '0.1';
+if (num > 100) petWeightInput.value = '100.0';
+});
+}
+
+
+let currentPage = 1;
+const totalPages = pages.length;
+
+
+const dogBreeds = [
+"Australian Kelpie", "Australian Shepherd", "Beagle", "Border Collie",
+"Cavalier King Charles Spaniel", "Cavoodle", "Chihuahua", "Cocker Spaniel",
+"Dachshund", "English Bulldog", "French Bulldog", "German Shepherd",
+"Golden Retriever", "Greyhound", "Jack Russell Terrier", "Labrador Retriever",
+"Maltese", "Miniature Schnauzer", "Poodle (Miniature)", "Rottweiler",
+"Shih Tzu", "Staffordshire Bull Terrier", "Whippet"
+];
+
+
+const catBreeds = [
+"Bengal", "British Shorthair", "Burmese", "Domestic Shorthair", "Maine Coon",
+"Persian", "Ragdoll", "Russian Blue", "Scottish Fold", "Siamese"
+];
+
+
+function updatePage() {
+  // Switch visible page
+  pages.forEach(page => page.classList.remove('active-page'));
+  const activePage = popupOverlay.querySelector(`[data-page="${currentPage}"]`);
+  if (activePage) activePage.classList.add('active-page');
+
+  // If we're on the final "success" slide (last page) → hide ALL buttons
+  if (currentPage === totalPages) {
+    backBtn.style.display = 'none';
+    nextBtn.style.display = 'none';
+    submitBtn.style.display = 'none';
+  } else {
+    // Normal pages: show/hide as before
+    backBtn.style.display = currentPage > 1 ? 'block' : 'none';
+    nextBtn.style.display = currentPage < totalPages - 1 ? 'block' : 'none';
+    submitBtn.style.display = currentPage === totalPages - 1 ? 'block' : 'none';
+  }
+}
+
+
+
+
+
+
+// Decide which recommendation page to send them to
+function getRecommendationUrlByTypeAndWeight(petType, weight) {
+  if (!petType || isNaN(weight)) {
+    // Fallback (you can change this)
+    return '/collections/all';
+  }
+
+  // 🔹 DOG LOGIC
+  if (petType === 'dog') {
+    // 👉 Adjust these ranges exactly as your client wants
+    if (weight <= 4) {
+      return 'https://pawplan.net.au/pages/recommendation-page-af';
+    } else if (weight > 4 && weight <= 10) {
+      return 'https://pawplan.net.au/pages/recommendation-page-ad';
+    } else if (weight > 10 && weight <= 20) {
+      return 'https://pawplan.net.au/pages/recommendation-product-ah';
+    } else if (weight > 20 && weight <= 30) {
+      return 'https://pawplan.net.au/pages/recommendation-product-ai';
+    } else if (weight > 30 && weight <= 40) {
+      return 'https://pawplan.net.au/pages/recommendation-product-aj';
+    } else if (weight > 40 && weight <= 50) {
+      return 'https://pawplan.net.au/pages/recommendation-product-ak';
+    } else if (weight > 50 && weight <= 60) {
+      return 'https://pawplan.net.au/pages/recommendation-product-al';
+    } else {
+      // > 60kg (or whatever upper range you decide)
+      return 'https://pawplan.net.au/pages/recommendation-product-am';
+    }
+  }
+
+  // 🔹 CAT LOGIC
+  if (petType === 'cat') {
+    // Simple split example — tweak if client gives different rules
+    if (weight <= 4) {
+      return 'https://pawplan.net.au/pages/recommendation-product-ae';
+    } else {
+      return 'https://pawplan.net.au/pages/recommendation-product-ag';
+    }
+  }
+
+  // Default fallback
+  return '/collections/all';
+}
+
+
+
+
+
+// --- SUCCESS PAGE BUTTONS ---
+if (successContinueBtn) {
+  successContinueBtn.addEventListener('click', function () {
+    console.log('✅ Success Continue clicked');
+
+    // 1. Get pet type (dog / cat)
+    const selectedTypeEl = popupOverlay.querySelector('input[name="pet_type"]:checked');
+    const petType = selectedTypeEl ? selectedTypeEl.value : null; // "dog" or "cat"
+
+    // 2. Get pet weight from the existing field
+    const rawWeight = petWeightInput ? petWeightInput.value : '';
+    const weight = parseFloat(rawWeight);
+
+    // 3. Basic safety checks
+    if (!petType) {
+      alert('Please select if your pet is a dog or a cat.');
+      return;
+    }
+
+    if (!rawWeight || isNaN(weight)) {
+      alert('Please enter your pet’s weight so we can show the right recommendations.');
+      return;
+    }
+
+    // 4. Get the matching URL from our helper
+    const redirectUrl = getRecommendationUrlByTypeAndWeight(petType, weight);
+
+    console.log('➡️ Redirecting to:', redirectUrl, 'for', petType, 'weight:', weight);
+
+    // 5. Go to that page
+    window.location.href = redirectUrl;
+  });
+}
+
+
+
+
+
+// --- VALIDATION ---
+function validatePage(pageNumber) {
+const currentPageEl = popupOverlay.querySelector(`[data-page="${pageNumber}"]`);
+if (!currentPageEl) return true;
+const requiredInputs = currentPageEl.querySelectorAll('[required]');
+let isValid = true;
+requiredInputs.forEach(input => {
+if (!input.checkValidity() || (input.type === 'radio' && !popupOverlay.querySelector('input[name="pet_type"]:checked'))) {
+isValid = false;
+input.classList.add('invalid-input'); // Add class for styling invalid inputs
+} else {
+input.classList.remove('invalid-input'); // Remove class if valid
+}
+});
+if (pageNumber === 3 && breedSelect && breedSelect.value === 'Other' && otherBreedInput.value.trim() === '') {
+isValid = false;
+otherBreedInput.classList.add('invalid-input'); // Mark 'Other' input as invalid if empty
+} else if (otherBreedInput) {
+otherBreedInput.classList.remove('invalid-input'); // Ensure it's not marked if valid
+}
+return isValid;
+}
+
+
+
+
+function onNextClick() {
+  if (validatePage(currentPage)) {
+    currentPage++;
+    updatePage();
+  } else {
+    // focus first invalid field (clean UX)
+    const currentPageEl = popupOverlay.querySelector(`[data-page="${currentPage}"]`);
+    const firstInvalid = currentPageEl?.querySelector('.invalid-input, :invalid');
+    if (firstInvalid && typeof firstInvalid.reportValidity === 'function') {
+      firstInvalid.reportValidity();
+    } else {
+      alert('Please fill out all required fields.');
+    }
+    firstInvalid?.focus();
+  }
+}
+ensureOnce(nextBtn, 'click', onNextClick);
+
+
+
+
+
+function onBackClick() {
+ if (currentPage > 1) {
+   currentPage--;
+   updatePage();
+ }
+}
+ensureOnce(backBtn, 'click', onBackClick);
+
+
+
+
+// --- Attach a listener only once per element & event ---
+function ensureOnce(el, type, handler, options) {
+ if (!el) return;
+ const key = `__handler_${type}`;
+ if (el[key]) el.removeEventListener(type, el[key], options);
+ el.addEventListener(type, handler, options);
+ el[key] = handler;
+}
+
+
+
+function onSubmitClick(e) {
+ e.preventDefault();
+
+
+ if (!validatePage(currentPage)) {
+const currentPageEl = popupOverlay.querySelector(`[data-page="${currentPage}"]`);
+   const firstInvalid = currentPageEl?.querySelector('.invalid-input, :invalid');
+   if (firstInvalid && typeof firstInvalid.reportValidity === 'function') {
+     firstInvalid.reportValidity();
+   } else {
+     alert('Please fill in all required fields.');
+   }
+   firstInvalid?.focus();
+   return;
+ }
+
+
+ // --- STORE PET INFO IN COOKIE (SUPPORT MULTIPLE PETS) ---
+ const petType = popupOverlay.querySelector('input[name="pet_type"]:checked')?.value || '';
+ const petBreed = breedSelect.value === 'Other' ? otherBreedInput.value : breedSelect.value;
+ const petWeight = parseFloat(petWeightInput.value);
+
+
+ const newPetInfo = {
+ type: petType,
+ name: petNameInput.value,
+ birthdate: petBirthdateInput.value,
+ weight: petWeightInput.value,
+ breed: petBreed,
+ address: {
+   street: addressStreetInput?.value || '',
+   suburb: addressSuburbInput?.value || '',
+   state: addressStateSelect?.value || '',
+   postcode: addressPostcodeInput?.value || ''
+ },
+ id: Date.now()
+};
+
+
+
+{% comment %} 
+ // --- CHECK FOR CAT WEIGHT CONDITION (redirect path stays the same) ---
+ if (petType === 'cat' && petWeight >= 7 && petWeight <= 12) {
+   let existingPets = [];
+   const existingPetsCookie = getCookie('pets_info');
+   if (existingPetsCookie) { try { existingPets = JSON.parse(existingPetsCookie); } catch { existingPets = []; } }
+   const i = existingPets.findIndex(pet => pet.name === newPetInfo.name);
+   if (i > -1) existingPets[i] = newPetInfo; else existingPets.push(newPetInfo);
+   setCookie('pets_info', JSON.stringify(existingPets), 1);
+
+
+
+
+
+// NEW: remember this pet as the currently active pet
+setCookie('current_pet_id', newPetInfo.id, 1);
+
+
+ // Also update any existing cart items that don't yet have pet info
+ addPetInfoToExistingCartItems(newPetInfo);
+
+
+
+   popupOverlay.classList.remove('active');
+   document.body.style.overflow = '';
+
+
+   const productUrl = `/products/flea-treatment-medium-cat?variant=${51069111861540}`;
+   window.location.href = productUrl;
+   return;
+ }
+
+
+ // --- CHECK FOR DOG WEIGHT CONDITION (redirect path stays the same) ---
+ if (petType === 'dog' && petWeight >= 7 && petWeight <= 15) {
+   let existingPets = [];
+   const existingPetsCookie = getCookie('pets_info');
+   if (existingPetsCookie) { try { existingPets = JSON.parse(existingPetsCookie); } catch { existingPets = []; } }
+   const i = existingPets.findIndex(pet => pet.name === newPetInfo.name);
+   if (i > -1) existingPets[i] = newPetInfo; else existingPets.push(newPetInfo);
+   setCookie('pets_info', JSON.stringify(existingPets), 1);
+
+
+
+
+// NEW: remember this pet as the currently active pet
+setCookie('current_pet_id', newPetInfo.id, 1);
+
+
+
+   popupOverlay.classList.remove('active');
+   document.body.style.overflow = '';
+
+
+   const productUrl = `/products/flea-treatment-medium-dog?variant=${51069111861540}`;
+   window.location.href = productUrl;
+   return;
+ } {% endcomment %}
+
+
+ // --- DEFAULT FLOW (NO REDIRECT): save + update cart + SHOW SUCCESS PAGE ---
+ let existingPets = [];
+ const existingPetsCookie = getCookie('pets_info');
+ if (existingPetsCookie) { try { existingPets = JSON.parse(existingPetsCookie); } catch { existingPets = []; } }
+ const idx = existingPets.findIndex(p => p.name === newPetInfo.name);
+ if (idx > -1) existingPets[idx] = newPetInfo; else existingPets.push(newPetInfo);
+ setCookie('pets_info', JSON.stringify(existingPets), 1);
+
+
+
+// NEW: remember this pet as the currently active pet
+setCookie('current_pet_id', newPetInfo.id, 1);
+
+
+
+
+ // === NEW: CHECK IF THERE'S A PENDING CART ADDITION ===
+ if (window.pendingCartAddition && window.pendingCartAddition.shouldAutoAdd) {
+   console.log('✅ Pet info saved! Now adding product to cart automatically...');
+   
+   const pendingForm = window.pendingCartAddition.form;
+   const pendingButton = window.pendingCartAddition.button;
+   
+   // Add pet info to the pending form
+   if (pendingForm) {
+     addPetInfoToForm(pendingForm);
+   }
+   
+   // Close popup immediately
+   popupOverlay.classList.remove('active');
+   document.body.style.overflow = '';
+   currentPage = 1;
+   updatePage();
+   
+   // Clear pending state FIRST to avoid re-triggering
+   window.pendingCartAddition = {
+     form: null,
+     button: null,
+     shouldAutoAdd: false
+   };
+   
+   // Click the button to add product to cart (works with AJAX forms)
+   setTimeout(() => {
+     console.log('🛒 Clicking add to cart button programmatically');
+     if (pendingButton) {
+       pendingButton.click();
+     } else if (pendingForm) {
+       pendingForm.submit();
+     }
+   }, 300);
+   
+   return; // Exit early, don't show success page
+ }
+
+ // ✅ Move to success page (final page) and KEEP popup open
+currentPage = totalPages;
+updatePage();
+// No auto-close – user will choose Continue or Close
+
+}
+ensureOnce(submitBtn, 'click', onSubmitClick);
+
+
+
+
+ensureOnce(popupTrigger, 'click', () => {
+ popupOverlay.classList.add('active');
+ document.body.style.overflow = 'hidden';
+});
+
+
+closeButtons.forEach(btn => {
+ ensureOnce(btn, 'click', () => {
+   popupOverlay.classList.remove('active');
+   document.body.style.overflow = '';
+   currentPage = 1;
+   updatePage();
+   
+   // === NEW: Clear pending cart addition if user closes without completing ===
+   if (window.pendingCartAddition && window.pendingCartAddition.shouldAutoAdd) {
+     console.log('⚠️ Popup closed without completing - cart addition cancelled');
+     window.pendingCartAddition = {
+       form: null,
+       button: null,
+       shouldAutoAdd: false
+     };
+   }
+ });
+});
+
+
+ensureOnce(popupOverlay, 'click', (e) => {
+ if (e.target === popupOverlay) {
+   popupOverlay.classList.remove('active');
+   document.body.style.overflow = '';
+   currentPage = 1;
+   updatePage();
+   
+   // === NEW: Clear pending cart addition if user clicks outside ===
+   if (window.pendingCartAddition && window.pendingCartAddition.shouldAutoAdd) {
+     console.log('⚠️ Popup closed by clicking outside - cart addition cancelled');
+     window.pendingCartAddition = {
+       form: null,
+       button: null,
+       shouldAutoAdd: false
+     };
+   }
+ }
+});
+
+
+ensureOnce(document, 'keydown', (e) => {
+ if (e.key === 'Escape') {
+   popupOverlay.classList.remove('active');
+   document.body.style.overflow = '';
+   currentPage = 1;
+   updatePage();
+   
+   // === NEW: Clear pending cart addition if user presses Escape ===
+   if (window.pendingCartAddition && window.pendingCartAddition.shouldAutoAdd) {
+     console.log('⚠️ Popup closed with Escape key - cart addition cancelled');
+     window.pendingCartAddition = {
+       form: null,
+       button: null,
+       shouldAutoAdd: false
+     };
+   }
+ }
+});
+
+
+
+
+// --- BREED POPULATION ---
+function populateBreeds(petType) {
+if (!breedSelect) return;
+breedSelect.innerHTML = '<option value="">Select a breed</option>';
+const breeds = petType === 'dog' ? dogBreeds : catBreeds;
+breeds.forEach(breed => {
+const option = document.createElement('option');
+option.value = breed;
+option.textContent = breed;
+breedSelect.appendChild(option);
+});
+const otherOption = document.createElement('option');
+otherOption.value = 'Other';
+otherOption.textContent = 'Other';
+breedSelect.appendChild(otherOption);
+}
+
+
+petTypeRadios.forEach(radio => {
+radio.addEventListener('change', function() {
+populateBreeds(this.value);
+});
+});
+
+
+
+
+if (breedSelect && otherBreedInput) {
+breedSelect.addEventListener('change', function() {
+if (this.value === 'Other') {
+otherBreedInput.style.display = 'block';
+otherBreedInput.setAttribute('required', 'true');
+} else {
+otherBreedInput.style.display = 'none';
+otherBreedInput.removeAttribute('required');
+otherBreedInput.value = '';
+}
+});
+}
+
+
+updatePage();
+// Set maximum date to yesterday for birthdate input
+const today = new Date();
+const yesterday = new Date(today);
+yesterday.setDate(today.getDate() - 1);
+const yesterdayString = yesterday.toISOString().split('T')[0];
+if (petBirthdateInput) {
+petBirthdateInput.setAttribute('max', yesterdayString);
+console.log('📅 Set birthdate max to yesterday:', yesterdayString);
+}
+});
+
+// === NEW: INTERCEPT ADD TO CART BUTTON CLICKS (FOR AJAX/CUSTOM ELEMENTS) ===
+console.log('🛒 Setting up add to cart button intercept...');
+
+// Intercept all "Add to Cart" button clicks BEFORE they submit
+function interceptAddToCartButtons() {
+  // 1) If pet info already exists, don't set any blocking logic
+  if (hasPetInfo()) {
+    console.log('✅ pets_info cookie found – skipping Add to Cart guard');
+    return;
+  }
+
+  // 2) If there is no popup-overlay on this page, don't block either
+  const popupOverlay = document.querySelector('.popup-overlay');
+  if (!popupOverlay) {
+    console.log('ℹ️ No popup-overlay on this page – not enforcing pet popup');
+    return;
+  }
+
+  // 3) Normal behaviour: attach intercepts
+  const addToCartButtons = document.querySelectorAll(
+    'button[name="add"]' +
+    ', button[type="submit"][class*="add"]' +
+    ', button[id*="ProductSubmitButton"]' +
+    ', button.product-form__submit' +
+    ', [data-add-to-cart]'
+  );
+
+  console.log(`🛒 Found ${addToCartButtons.length} add to cart buttons`);
+
+  addToCartButtons.forEach((button, index) => {
+    console.log(`🛒 Setting up button ${index + 1}:`, button);
+
+    button.addEventListener('click', function(e) {
+      console.log('🛒 Add to cart button clicked!', button);
+
+      // Re-check at click time (in case pet info was added in another tab)
+      if (!hasPetInfo()) {
+        console.log('❌ No pet info - blocking add to cart');
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+
+        const form = button.closest('form') || document.querySelector('form[action*="/cart/add"]');
+
+        window.pendingCartAddition = {
+          form: form,
+          button: button,
+          shouldAutoAdd: true
+        };
+
+        openPetPopup();
+        return false;
+      }
+
+      // If we reach here we DO have pet info – just add it to the form
+      console.log('✅ Pet info exists - adding to form before submission');
+      const form = button.closest('form');
+      if (form) {
+        const existingPetInputs = form.querySelectorAll('input[name^="properties[Pet"]');
+        existingPetInputs.forEach(input => input.remove());
+
+        const petsInfoCookie = getCookie('pets_info');
+        if (petsInfoCookie) {
+          try {
+            const petsInfo = JSON.parse(petsInfoCookie);
+            if (petsInfo && petsInfo.length > 0) {
+              const latestPet = petsInfo[petsInfo.length - 1];
+              const propInput = document.createElement('input');
+              propInput.type = 'hidden';
+              propInput.name = 'properties[Pet Details]';
+
+              let petDetails = `Type: ${latestPet.type}
+Name: ${latestPet.name}
+Breed: ${latestPet.breed}
+Weight: ${latestPet.weight}kg
+Birthdate: ${latestPet.birthdate}`;
+
+              if (latestPet.address) {
+                const addr = latestPet.address;
+                if (addr.street || addr.suburb || addr.state || addr.postcode) {
+                  petDetails += `
+Address: ${addr.street}
+${addr.suburb}
+${addr.state} ${addr.postcode}`;
+                }
+              }
+
+              propInput.value = petDetails;
+              form.appendChild(propInput);
+              console.log('✅ Added pet info to form:', propInput.value);
+            }
+          } catch (e) {
+            console.error('Error adding pet info:', e);
+          }
+        }
+      }
+    }, true);
+  });
+}
+
+
+// Run immediately and after page load
+interceptAddToCartButtons();
+window.addEventListener('load', interceptAddToCartButtons);
+
+// Also watch for dynamically added buttons
+if (typeof MutationObserver !== 'undefined') {
+  const observer = new MutationObserver(() => {
+    interceptAddToCartButtons();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+}
+
+
+// --- ADD TO CART INTERCEPT ---
+console.log('🛒 Setting up add to cart intercept...');
+// Function to add pet info to form (SUPPORT MULTIPLE PETS)
+function addPetInfoToForm(form) {
+console.log('🛒 Processing form:', form);
+console.log('🛒 Form action:', form.action);
+
+// === NEW: CHECK IF PET INFO EXISTS - IF NOT, BLOCK AND OPEN POPUP ===
+if (!hasPetInfo()) {
+  console.log('❌ No pet info found - blocking cart addition and opening popup');
+  
+  // Store the form for later submission
+  window.pendingCartAddition = {
+    form: form,
+    button: null, // Will be set by button interceptor if available
+    shouldAutoAdd: true
+  };
+  
+  // Open the popup
+  openPetPopup();
+  
+  return false; // Indicate that form should not proceed
+}
+
+const petsInfoCookie = getCookie('pets_info');
+console.log('🛒 Pets info cookie retrieved:', petsInfoCookie);
+if (petsInfoCookie) {
+let petsInfo;
+try {
+petsInfo = JSON.parse(petsInfoCookie);
+console.log('🛒 Parsed pets info:', petsInfo);
+} catch (err) {
+console.error('🛒 Error parsing pets info:', err);
+petsInfo = null;
+}
+if (petsInfo && petsInfo.length > 0) {
+// Remove existing pet_info properties if they exist
+const existingInputs = form.querySelectorAll('input[name^="properties[Pet"]');
+existingInputs.forEach(input => {
+console.log('🛒 Removing existing pet info input');
+input.remove();
+});
+
+
+// Get the product title to determine if it's cat or dog product
+const productTitleElement = form.closest('.product')?.querySelector('.product__title, .product-title, h1, .product__heading') ||
+document.querySelector('.product__title, .product-title, h1, .product__heading');
+const productTitle = productTitleElement?.textContent?.toLowerCase() || '';
+console.log('🛒 Product title detected:', productTitle);
+console.log('🛒 All available pets:', petsInfo);
+// Find pets that match the product type
+const matchingPets = petsInfo.filter(pet => {
+const isCatProduct = productTitle.includes('cat');
+const isDogProduct = productTitle.includes('dog');
+// If pet has productType, use that for matching
+if (pet.productType) {
+if (isCatProduct && pet.productType === 'cat') return true;
+if (isDogProduct && pet.productType === 'dog') return true;
+return false;
+}
+// Fallback to pet type matching
+if (isCatProduct && pet.type === 'cat') return true;
+if (isDogProduct && pet.type === 'dog') return true;
+return false;
+});
+console.log('🛒 Matching pets for product:', matchingPets);
+if (matchingPets.length > 0) {
+// Add only the most recent matching pet as a single property
+const latestMatchingPet = matchingPets[matchingPets.length - 1];
+const propInput = document.createElement('input');
+propInput.type = 'hidden';
+propInput.name = 'properties[Pet Details]';
+
+// Build pet details string with each field on its own line
+let petDetailsValue = `Type: ${latestMatchingPet.type}
+Name: ${latestMatchingPet.name}
+Breed: ${latestMatchingPet.breed}
+Weight: ${latestMatchingPet.weight}kg
+Birthdate: ${latestMatchingPet.birthdate}`;
+if (latestMatchingPet.address) {
+  const addr = latestMatchingPet.address;
+  if (addr.street || addr.suburb || addr.state || addr.postcode) {
+    petDetailsValue += `
+Address: ${addr.street}
+${addr.suburb}
+${addr.state} ${addr.postcode}`;
+  }
+}
+
+propInput.value = petDetailsValue;
+console.log('🛒 Adding matching pet info to form:', propInput.value);
+form.appendChild(propInput);
+} else {
+console.log('🛒 No matching pets found for this product type');
+}
+// Debug: Log all form inputs
+console.log('🛒 All form inputs after adding pets info:');
+Array.from(form.querySelectorAll('input')).forEach(input => {
+console.log(` - ${input.name}: ${input.value}`);
+});
+return true;
+} else {
+console.log('🛒 No valid pets info found');
+}
+} else {
+console.log('🛒 No pets info cookie found');
+}
+return false;
+}
+// Try multiple selectors to find add to cart forms
+const formSelectors = [
+'form[action^="/cart/add"]',
+'form[action*="/cart/add"]',
+'form[action="/cart/add"]',
+'.product-form form',
+'[data-product-form]',
+'form[action*="cart"]',
+'form[action*="add"]'
+];
+let formsFound = 0;
+formSelectors.forEach(selector => {
+const forms = document.querySelectorAll(selector);
+console.log(`🛒 Found ${forms.length} forms with selector: ${selector}`);
+formsFound += forms.length;
+forms.forEach((form, index) => {
+console.log(`🛒 Setting up listener for form ${index + 1}:`, form);
+{% comment %} form.addEventListener('submit', function(e) {
+console.log('🛒 Add to cart form submitted!', form);
+addPetInfoToForm(form);
+}); {% endcomment %}
+ensureOnce(form, 'submit', function(e) {
+ console.log('🛒 Add to cart form submitted!', form);
+ const canProceed = addPetInfoToForm(form);
+ if (canProceed === false) {
+   e.preventDefault();
+   e.stopPropagation();
+   console.log('🛒 Form submission blocked - waiting for pet info');
+   return false;
+ }
+});
+
+
+});
+});
+console.log(`🛒 Total forms found and set up: ${formsFound}`);
+
+
+
+
+ensureOnce(document, 'submit', function(e) {
+ const form = e.target;
+ if (form && form.tagName === 'FORM') {
+   if (form.action.includes('/cart/add') ||
+       form.action.includes('cart') ||
+       form.querySelector('input[name="add"]') ||
+       form.querySelector('button[type="submit"]') ||
+       form.querySelector('[data-add-to-cart]')) {
+     const canProceed = addPetInfoToForm(form);
+     if (canProceed === false) {
+       e.preventDefault();
+       e.stopPropagation();
+       console.log('🛒 Global handler - Form submission blocked - waiting for pet info');
+       return false;
+     }
+   }
+ }
+});
+
+
+});
+
+
+// Additional script to run after page load to catch any missed forms
+window.addEventListener('load', function() {
+console.log('🛒 Page fully loaded, checking for forms again...');
+// Re-check for forms after page load
+const allForms = document.querySelectorAll('form');
+console.log(`🛒 Found ${allForms.length} total forms on page after load`);
+allForms.forEach((form, index) => {
+console.log(`🛒 Form ${index + 1}:`, form.action, form);
+// Check if this form looks like an add to cart form
+if (form.action.includes('/cart/add') ||
+form.action.includes('cart') ||
+form.querySelector('input[name="add"]') ||
+form.querySelector('button[type="submit"]') ||
+form.querySelector('[data-add-to-cart]')) {
+console.log('🛒 This form looks like add to cart, setting up listener...');
+
+
+
+
+ensureOnce(form, 'submit', handleFormSubmit);
+
+
+}
+});
+});
+
+
+// Global form submit handler (SUPPORT MULTIPLE PETS)
+function handleFormSubmit(e) {
+console.log('🛒 Global form submit handler triggered!', e.target);
+const form = e.target;
+
+// === NEW: CHECK IF PET INFO EXISTS FIRST ===
+if (!hasPetInfo()) {
+  console.log('❌ Global handler - No pet info found - blocking cart addition');
+  e.preventDefault();
+  e.stopPropagation();
+  
+  // Store the form for later submission
+  window.pendingCartAddition = {
+    form: form,
+    button: null,
+    shouldAutoAdd: true
+  };
+  
+  // Open the popup
+  openPetPopup();
+  
+  return false;
+}
+
+const petsInfoCookie = getCookie('pets_info');
+if (petsInfoCookie) {
+let petsInfo;
+try {
+petsInfo = JSON.parse(petsInfoCookie);
+console.log('🛒 Global handler - Parsed pets info:', petsInfo);
+} catch (err) {
+console.error('🛒 Global handler - Error parsing pets info:', err);
+return;
+}
+if (petsInfo && petsInfo.length > 0) {
+// Remove existing pet_info properties if they exist
+const existingInputs = form.querySelectorAll('input[name^="properties[Pet"]');
+existingInputs.forEach(input => {
+console.log('🛒 Global handler - Removing existing pet info input');
+input.remove();
+});
+
+
+// Get the product title to determine if it's cat or dog product
+const productTitleElement = form.closest('.product')?.querySelector('.product__title, .product-title, h1, .product__heading') ||
+document.querySelector('.product__title, .product-title, h1, .product__heading');
+const productTitle = productTitleElement?.textContent?.toLowerCase() || '';
+console.log('🛒 Global handler - Product title detected:', productTitle);
+// Find pets that match the product type
+const matchingPets = petsInfo.filter(pet => {
+const isCatProduct = productTitle.includes('cat');
+const isDogProduct = productTitle.includes('dog');
+// If pet has productType, use that for matching
+if (pet.productType) {
+if (isCatProduct && pet.productType === 'cat') return true;
+if (isDogProduct && pet.productType === 'dog') return true;
+return false;
+}
+// Fallback to pet type matching
+if (isCatProduct && pet.type === 'cat') return true;
+if (isDogProduct && pet.type === 'dog') return true;
+return false;
+});
+console.log('🛒 Global handler - Matching pets for product:', matchingPets);
+if (matchingPets.length > 0) {
+// Add only the most recent matching pet as a single property
+const latestMatchingPet = matchingPets[matchingPets.length - 1];
+const propInput = document.createElement('input');
+propInput.type = 'hidden';
+propInput.name = 'properties[Pet Details]';
+
+// Build pet details string with each field on its own line
+let petDetailsValue = `Type: ${latestMatchingPet.type}
+Name: ${latestMatchingPet.name}
+Breed: ${latestMatchingPet.breed}
+Weight: ${latestMatchingPet.weight}kg
+Birthdate: ${latestMatchingPet.birthdate}`;
+if (latestMatchingPet.address) {
+  const addr = latestMatchingPet.address;
+  if (addr.street || addr.suburb || addr.state || addr.postcode) {
+    petDetailsValue += `
+Address: ${addr.street}
+${addr.suburb}
+${addr.state} ${addr.postcode}`;
+  }
+}
+
+propInput.value = petDetailsValue;
+console.log('🛒 Global handler - Adding matching pet info to form:', propInput.value);
+form.appendChild(propInput);
+} else {
+console.log('🛒 Global handler - No matching pets found for this product type');
+}
+// Debug: Log all form inputs
+console.log('🛒 Global handler - All form inputs after adding pets info:');
+Array.from(form.querySelectorAll('input')).forEach(input => {
+console.log(` - ${input.name}: ${input.value}`);
+});
+}
+}
+}
+
+
+// Make getCookie function globally available
+window.getCookie = getCookie;
+
+
+// Make setCookie function globally available
+window.setCookie = setCookie;
+
+
+// === NEW: PENDING CART ADDITION STATE ===
+window.pendingCartAddition = {
+  form: null,
+  button: null,
+  shouldAutoAdd: false
+};
+
+
+// === NEW: CHECK IF PET INFO EXISTS ===
+function hasPetInfo() {
+  const petsInfoCookie = getCookie('pets_info');
+
+  // No cookie at all or empty string
+  if (!petsInfoCookie || petsInfoCookie.trim() === '') {
+    return false;
+  }
+
+  try {
+    const petsInfo = JSON.parse(petsInfoCookie);
+
+    // Must be a non-empty array
+    if (!Array.isArray(petsInfo) || petsInfo.length === 0) {
+      return false;
+    }
+
+    // Extra safety: check that at least one entry has a type + name
+    const validPet = petsInfo.some(pet => pet && (pet.type || pet.name));
+    return validPet;
+  } catch (e) {
+    console.warn('hasPetInfo: error parsing pets_info cookie', e, petsInfoCookie);
+    return false;
+  }
+}
+
+
+
+// === NEW: OPEN POPUP PROGRAMMATICALLY ===
+function openPetPopup() {
+  console.log('🐾 Opening pet popup - pet info required before adding to cart');
+  const popupOverlay = document.querySelector('.popup-overlay');
+  if (popupOverlay) {
+    popupOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    // Optional: Update heading to show this is required
+    const heading = popupOverlay.querySelector('.popup-heading');
+    if (heading && heading.getAttribute('data-original-text') === null) {
+      heading.setAttribute('data-original-text', heading.textContent);
+      heading.textContent = '⚠️ Pet Details Required to Add to Cart';
+      
+      // Reset after 3 seconds
+      setTimeout(() => {
+        const originalText = heading.getAttribute('data-original-text');
+        if (originalText) {
+          heading.textContent = originalText;
+        }
+      }, 3000);
+    }
+  }
+}
+
+
+function clearAllPetInfo() {
+  console.log('🗑️ Clearing all pet information...');
+  // Clear the pets info cookie
+  setCookie('pets_info', '', -1);
+  // Also clear the legacy single pet cookie
+  setCookie('pet_info', '', -1);
+  // NEW: clear active pet id
+  setCookie('current_pet_id', '', -1);
+  console.log('🗑️ All pet information cleared');
+}
+
+
+
+// Make clearAllPetInfo function globally available
+window.clearAllPetInfo = clearAllPetInfo;
+
+
+// Function to clear pet data from cart items
+function clearPetDataFromCartItems() {
+console.log('🧹 Clearing pet data from cart items...');
+fetch('/cart.js')
+.then(response => response.json())
+.then(cart => {
+console.log('🧹 Current cart:', cart);
+if (cart.items && cart.items.length > 0) {
+// Update each cart item to remove pet info properties
+const updates = cart.items.map(item => {
+const newProperties = { ...item.properties };
+// Remove all pet info properties
+Object.keys(newProperties).forEach(key => {
+if (key.includes('Pet') || key.includes('pet')) {
+console.log('🧹 Removing pet property:', key);
+delete newProperties[key];
+}
+});
+console.log(`🧹 Updating item ${item.id} - removing pet properties:`, newProperties);
+return {
+id: item.id,
+quantity: item.quantity,
+properties: newProperties
+};
+});
+console.log('🧹 Cart updates:', updates);
+// Send update to cart
+
+
+// Apply updates per line using change.js
+Promise.all(updates.map(u => {
+ return fetch('/cart/change.js', {
+   method: 'POST',
+   headers: { 'Content-Type': 'application/json' },
+   body: JSON.stringify({
+     id: cart.items.find(i => i.id === u.id)?.key ?? undefined, // prefer key
+     // fallback: line: index+1 (not shown), but key is safest
+     quantity: u.quantity,
+     properties: u.properties
+   })
+ });
+}))
+.then(() => {
+ console.log('🧹 Cart updated successfully - pet data cleared');
+ window.location.reload();
+})
+.catch(error => {
+ console.error('🧹 Error updating cart with change.js:', error);
+});
+
+
+} else {
+console.log('🧹 No items in cart to update');
+}
+})
+.catch(error => {
+console.error('🧹 Error fetching cart:', error);
+});
+}
+
+
+// Make clearPetDataFromCartItems function globally available
+window.clearPetDataFromCartItems = clearPetDataFromCartItems;
+
+
+// Function to delete a pet
+function deletePet(petId) {
+console.log('🗑️ Deleting pet with ID:', petId);
+// Get current pets from cookie
+const petsInfoCookie = getCookie('pets_info');
+if (!petsInfoCookie) {
+console.log('🗑️ No pets found to delete');
+return;
+}
+let petsInfo;
+try {
+petsInfo = JSON.parse(petsInfoCookie);
+} catch (err) {
+console.error('🗑️ Error parsing pets info:', err);
+return;
+}
+// Find and remove the pet
+const petIndex = petsInfo.findIndex(pet => pet.id == petId);
+if (petIndex === -1) {
+console.log('🗑️ Pet not found with ID:', petId);
+return;
+}
+const deletedPet = petsInfo.splice(petIndex, 1)[0];
+console.log('🗑️ Deleted pet:', deletedPet);
+console.log('🗑️ Remaining pets:', petsInfo);
+// Update cookie with remaining pets
+if (petsInfo.length > 0) {
+setCookie('pets_info', JSON.stringify(petsInfo), 1);
+} else {
+// Remove cookie if no pets left
+setCookie('pets_info', '', -1);
+}
+// Update cart items to remove the deleted pet's properties
+updateCartAfterPetDeletion(petsInfo);
+// Update display using the main display function to avoid duplication
+if (window.displayPetInfoFromCookie) {
+window.displayPetInfoFromCookie();
+} else {
+updateCartDisplayWithPetInfo(petsInfo);
+}
+}
+
+
+// Function to update cart after pet deletion
+function updateCartAfterPetDeletion(remainingPets) {
+console.log('🛒 Updating cart after pet deletion:', remainingPets);
+fetch('/cart.js')
+.then(response => response.json())
+.then(cart => {
+console.log('🛒 Current cart:', cart);
+if (cart.items && cart.items.length > 0) {
+// Update each cart item with remaining pets info
+const updates = cart.items.map(item => {
+const newProperties = { ...item.properties };
+// Remove all pet info properties
+Object.keys(newProperties).forEach(key => {
+if (key.startsWith('Pet') && key.includes('Info')) {
+delete newProperties[key];
+}
+});
+// Add only the most recent pet info as a single property
+if (remainingPets.length > 0) {
+const latestPet = remainingPets[remainingPets.length - 1];
+let petInfoString = `Type: ${latestPet.type}
+Name: ${latestPet.name}
+Breed: ${latestPet.breed}
+Weight: ${latestPet.weight}kg
+Birthdate: ${latestPet.birthdate}`;
+// Add address if it exists
+if (latestPet.address) {
+  const addr = latestPet.address;
+  if (addr.street || addr.suburb || addr.state || addr.postcode) {
+    petInfoString += `
+Address: ${addr.street}
+${addr.suburb}
+${addr.state} ${addr.postcode}`;
+  }
+}
+newProperties['Pet Details'] = petInfoString;
+}
+console.log(`🛒 Updating item ${item.id} with remaining pets info:`, newProperties);
+return {
+id: item.id,
+quantity: item.quantity,
+properties: newProperties
+};
+});
+console.log('🛒 Cart updates:', updates);
+// Send update to cart
+
+// Apply updates per line using change.js
+Promise.all(updates.map(u => {
+ return fetch('/cart/change.js', {
+   method: 'POST',
+   headers: { 'Content-Type': 'application/json' },
+   body: JSON.stringify({
+     id: cart.items.find(i => i.id === u.id)?.key ?? undefined,
+     quantity: u.quantity,
+     properties: u.properties
+   })
+ });
+}))
+.then(() => {
+ console.log('🛒 Cart updated successfully after deletion');
+})
+.catch(error => {
+ console.error('🛒 Error updating cart after deletion (change.js):', error);
+});
+
+
+
+
+
+
+} else {
+console.log('🛒 No items in cart to update');
+}
+})
+.catch(error => {
+console.error('🛒 Error fetching cart for deletion update:', error);
+});
+}
+
+
+// Function to update cart display with single pet info without page reload
+function updateCartDisplayWithPetInfo(petsInfo) {
+console.log('🐾 Updating cart display with pets info:', petsInfo);
+// Create pets info HTML - show only the most recent pet
+let petsInfoHTML = '';
+if (petsInfo && petsInfo.length > 0) {
+// Get only the most recent pet (last one in array)
+const latestPet = petsInfo[petsInfo.length - 1];
+const petTitle = latestPet.name || 'Your Pet';
+petsInfoHTML = `
+<div class="pet-info-section" data-pet-id="${latestPet.id}">
+<div class="pet-info-header">
+<h4 class="pet-info-title">${petTitle}</h4>
+<button type="button" class="pet-delete-btn" data-pet-id="${latestPet.id}" aria-label="Delete pet ${latestPet.name}">
+<span class="svg-wrapper">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="3,6 5,6 21,6"></polyline>
+<path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+<line x1="10" y1="11" x2="10" y2="17"></line>
+<line x1="14" y1="11" x2="14" y2="17"></line>
+</svg>
+</span>
+</button>
+</div>
+<div class="pet-info-item">
+<span class="pet-info-label">Type:</span>
+<span class="pet-info-value">${latestPet.type || 'Not specified'}</span>
+</div>
+<div class="pet-info-item">
+<span class="pet-info-label">Breed:</span>
+<span class="pet-info-value">${latestPet.breed || 'Not specified'}</span>
+</div>
+<div class="pet-info-item">
+<span class="pet-info-label">Weight:</span>
+<span class="pet-info-value">${latestPet.weight || 'Not specified'} kg</span>
+</div>
+<div class="pet-info-item">
+<span class="pet-info-label">Birthdate:</span>
+<span class="pet-info-value">${latestPet.birthdate || 'Not specified'}</span>
+</div>
+</div>
+`;
+} else {
+// Don't show anything when no pets are available
+petsInfoHTML = '';
+}
+// Add pets info to individual cart items (after product price) - filter by product type
+const cartItemPetInfoDisplays = document.querySelectorAll('.cart-item-pet-info');
+console.log(`🐾 Found ${cartItemPetInfoDisplays.length} cart item pet info displays`);
+cartItemPetInfoDisplays.forEach(display => {
+// Get the cart item row to find the product title
+const cartItemRow = display.closest('tr');
+const productTitleElement = cartItemRow?.querySelector('.cart-item__name');
+const productTitle = productTitleElement?.textContent?.toLowerCase() || '';
+console.log(`🐾 Product title for this cart item: ${productTitle}`);
+// Check if we have pet info and if it matches the product type
+if (petsInfo && petsInfo.length > 0) {
+// Find pets that match this product type
+const matchingPets = petsInfo.filter(pet => {
+const isCatProduct = productTitle.includes('cat');
+const isDogProduct = productTitle.includes('dog');
+// If pet has productType, use that for matching
+if (pet.productType) {
+if (isCatProduct && pet.productType === 'cat') return true;
+if (isDogProduct && pet.productType === 'dog') return true;
+return false;
+}
+// Fallback to pet type matching
+if (isCatProduct && pet.type === 'cat') return true;
+if (isDogProduct && pet.type === 'dog') return true;
+return false;
+});
+console.log(`🐾 Matching pets for ${productTitle}:`, matchingPets);
+if (matchingPets.length > 0) {
+// Show only the most recent matching pet
+const latestMatchingPet = matchingPets[matchingPets.length - 1];
+const petTitle = latestMatchingPet.name || 'Your Pet';
+const petInfoHTML = `
+<div class="pet-info-section" data-pet-id="${latestMatchingPet.id}">
+<div class="pet-info-header">
+<h4 class="pet-info-title">${petTitle}</h4>
+<button type="button" class="pet-delete-btn" data-pet-id="${latestMatchingPet.id}" aria-label="Delete pet ${latestMatchingPet.name}">
+<span class="svg-wrapper">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="3,6 5,6 21,6"></polyline>
+<path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+<line x1="10" y1="11" x2="10" y2="17"></line>
+<line x1="14" y1="11" x2="14" y2="17"></line>
+</svg>
+</span>
+</button>
+</div>
+<div class="pet-info-item">
+<span class="pet-info-label">Type:</span>
+<span class="pet-info-value">${latestMatchingPet.type || 'Not specified'}</span>
+</div>
+<div class="pet-info-item">
+<span class="pet-info-label">Breed:</span>
+<span class="pet-info-value">${latestMatchingPet.breed || 'Not specified'}</span>
+</div>
+<div class="pet-info-item">
+<span class="pet-info-label">Weight:</span>
+<span class="pet-info-value">${latestMatchingPet.weight || 'Not specified'} kg</span>
+</div>
+<div class="pet-info-item">
+<span class="pet-info-label">Birthdate:</span>
+<span class="pet-info-value">${latestMatchingPet.birthdate || 'Not specified'}</span>
+</div>
+</div>
+`;
+display.innerHTML = petInfoHTML;
+display.style.display = 'block';
+// Add event listeners to delete buttons
+const deleteButtons = display.querySelectorAll('.pet-delete-btn');
+deleteButtons.forEach(button => {
+button.addEventListener('click', function() {
+const petId = this.getAttribute('data-pet-id');
+deletePet(petId);
+});
+});
+console.log(`🐾 Showing matching pet info for: ${productTitle}`);
+} else {
+display.style.display = 'none';
+display.innerHTML = '';
+console.log(`🐾 No matching pets found for: ${productTitle}`);
+}
+} else {
+display.style.display = 'none';
+display.innerHTML = '';
+}
+});
+// Also update the main cart sections for backward compatibility
+const cartPetInfoDisplay = document.querySelector('#pet-info-cart');
+const emptyCartPetInfoDisplay = document.querySelector('#pet-info-empty-cart');
+if (cartPetInfoDisplay) {
+cartPetInfoDisplay.style.display = 'none';
+cartPetInfoDisplay.innerHTML = '';
+}
+if (emptyCartPetInfoDisplay) {
+emptyCartPetInfoDisplay.style.display = 'none';
+emptyCartPetInfoDisplay.innerHTML = '';
+}
+console.log('🐾 Cart display updated successfully without page reload');
+}
+
+
+// Function to add pet info to existing cart items (SUPPORT MULTIPLE PETS)
+// IMPORTANT: Only updates items that DON'T already have pet info - preserves existing pet associations
+function addPetInfoToExistingCartItems(newPetInfo) {
+console.log('🐾 Adding new pet info to existing cart items (only items without pet info):', newPetInfo);
+// Get all pets from cookie
+const petsInfoCookie = getCookie('pets_info');
+let allPetsInfo = [];
+if (petsInfoCookie) {
+try {
+allPetsInfo = JSON.parse(petsInfoCookie);
+} catch (err) {
+console.error('🐾 Error parsing pets info:', err);
+allPetsInfo = [newPetInfo];
+}
+} else {
+allPetsInfo = [newPetInfo];
+}
+// Get current cart data
+fetch('/cart.js')
+.then(response => response.json())
+.then(cart => {
+console.log('🐾 Current cart:', cart);
+if (cart.items && cart.items.length > 0) {
+// Only update cart items that DON'T already have pet info
+const updates = cart.items
+.filter(item => {
+  // Check if item already has pet info
+  const hasPetInfo = item.properties && (
+    item.properties['Pet Details'] ||
+    item.properties['_pet_id'] ||
+    Object.keys(item.properties).some(key => key.includes('Pet') && key.includes('Info'))
+  );
+  
+  if (hasPetInfo) {
+    console.log(`🐾 Skipping item ${item.id} - already has pet info`);
+    return false; // Skip this item
+  }
+  return true; // Update this item
+})
+.map(item => {
+const newProperties = { ...item.properties };
+// Add only the most recent pet info as a single property
+const latestPet = allPetsInfo[allPetsInfo.length - 1];
+let petInfoString = `Type: ${latestPet.type}
+Name: ${latestPet.name}
+Breed: ${latestPet.breed}
+Weight: ${latestPet.weight}kg
+Birthdate: ${latestPet.birthdate}`;
+// Add address if it exists
+if (latestPet.address) {
+  const addr = latestPet.address;
+  if (addr.street || addr.suburb || addr.state || addr.postcode) {
+    petInfoString += `
+Address: ${addr.street}
+${addr.suburb}
+${addr.state} ${addr.postcode}`;
+  }
+}
+newProperties['Pet Details'] = petInfoString;
+newProperties['_pet_id'] = String(latestPet.id); // Also add pet ID for easier matching
+console.log(`🐾 Updating item ${item.id} with new pet info:`, newProperties);
+return {
+id: item.id,
+quantity: item.quantity,
+properties: newProperties
+};
+});
+console.log('🐾 Cart updates:', updates);
+
+// Apply updates per line using change.js
+Promise.all(updates.map(u => {
+ return fetch('/cart/change.js', {
+   method: 'POST',
+   headers: { 'Content-Type': 'application/json' },
+   body: JSON.stringify({
+     id: cart.items.find(i => i.id === u.id)?.key ?? undefined,
+     quantity: u.quantity,
+     properties: u.properties
+   })
+ });
+}))
+.then(() => {
+ console.log('🐾 Cart updated successfully (change.js)');
+ if (window.displayPetInfoFromCookie) {
+   window.displayPetInfoFromCookie();
+ } else {
+   updateCartDisplayWithPetInfo(allPetsInfo);
+ }
+})
+.catch(error => {
+ console.error('🐾 Error updating cart (change.js):', error);
+});
+
+
+
+
+
+
+
+
+} else {
+console.log('🐾 No items in cart to update');
+}
+})
+.catch(error => {
+console.error('🐾 Error fetching cart:', error);
+});
+}
+</script>
+
+
+
+
+
+
+

@@ -1,0 +1,837 @@
+  {{ 'section-contact-form.css' | asset_url | stylesheet_tag }}
+
+  {%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+
+    /* === Scoped floating label + placeholder fixes for this section === */
+    #contact-{{ section.id }} .field .field__label {
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    #contact-{{ section.id }} .field .field__input:focus + .field__label,
+    #contact-{{ section.id }} .field .field__input:not(:placeholder-shown) + .field__label,
+    #contact-{{ section.id }} .field .text-area:focus + .field__label,
+    #contact-{{ section.id }} .field .text-area:not(:placeholder-shown) + .field__label {
+      opacity: 1;
+      transform: translateY(-0.4rem) scale(0.9); /* slightly lower, less shrink */
+      transform-origin: left top;
+    }
+
+    /* Hide placeholders to avoid overlapping with floating labels */
+    #contact-{{ section.id }} .field .field__input::placeholder,
+    #contact-{{ section.id }} .field .text-area::placeholder {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    /* Nice anchor landing even without JS */
+    #contact-{{ section.id }} .form-status.form__message,
+    #contact-{{ section.id }} .form__message[role="alert"] {
+      scroll-margin-top: 96px; /* match stickyOffset in script */
+    }
+
+    /* Character counter styling */
+    #contact-{{ section.id }} .comment-char-counter {
+      display: block;
+      text-align: right;
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+      color: rgba(var(--color-foreground), 0.7);
+      padding: 0;
+      border: none;
+      background: transparent;
+    }
+
+    #contact-{{ section.id }} .comment-char-counter.exceeded {
+      color: #dc2626;
+      font-weight: 500;
+    }
+
+    
+  .text-area.field__input:focus {
+      border: none;
+  }
+  .text-area.field__input {
+      margin-top: 25px;
+      padding-top:10px;
+  }
+
+
+.text-area.field__input:focus {
+    border: none;
+    box-shadow: none;
+}
+
+  {%- endstyle -%}
+  <div class="color-{{ section.settings.color_scheme }} gradient">
+    <div id="contact-{{ section.id }}" class="contact page-width page-width--narrow section-{{ section.id }}-padding">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="title title-wrapper--no-top-margin inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+          {{ section.settings.heading }}
+        </h2>
+      {%- else -%}
+        <h2 class="visually-hidden">{{ 'templates.contact.form.title' | t }}</h2>
+      {%- endif -%}
+
+      {%- liquid
+        assign contact_form_class = 'isolate'
+        if settings.animations_reveal_on_scroll
+          assign contact_form_class = 'isolate scroll-trigger animate--slide-in'
+        endif
+      -%}
+
+      {%- form 'contact', id: 'ContactForm', class: contact_form_class -%}
+        {%- if form.posted_successfully? -%}
+          {% comment %} <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus> {% endcomment %}
+          <h2 class="form-status form-status-list form__message" tabindex="-1">
+
+            {{- 'icon-success.svg' | inline_asset_content -}}
+            {{ 'templates.contact.form.post_success' | t }}
+          </h2>
+        {%- elsif form.errors -%}
+          <div class="form__message">
+            {% comment %} <h2 class="form-status caption-large text-body" role="alert" tabindex="-1" autofocus> {% endcomment %}
+            <h2 class="form-status caption-large text-body" role="alert" tabindex="-1">
+
+              {{- 'icon-error.svg' | inline_asset_content -}}
+              {{ 'templates.contact.form.error_heading' | t }}
+            </h2>
+          </div>
+          <ul class="form-status-list caption-large" role="list">
+            <li>
+              <a href="#ContactForm-email" class="link">
+                {{ form.errors.translated_fields.email | capitalize }}
+                {{ form.errors.messages.email }}
+              </a>
+            </li>
+          </ul>
+        {%- endif -%}
+
+        <div class="contact__fields">
+          <!-- NAME (Required) -->
+          <div class="field">
+            <input
+              class="field__input"
+              autocomplete="name"
+              type="text"
+              id="ContactForm-name"
+              name="contact[name]"
+              value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+              placeholder="{{ 'templates.contact.form.name' | t }}"
+              minlength="3"
+              maxlength="50"
+              pattern=".*[A-Za-z].*"
+              title="Name must contain at least one letter and be 3-50 characters"
+              required
+            >
+            <label class="field__label" for="ContactForm-name">
+              {{ 'templates.contact.form.name' | t }} <span aria-hidden="true">*</span>
+            </label>
+          </div>
+
+          <!-- EMAIL (Required) -->
+          <div class="field field--with-error">
+            <input
+              autocomplete="email"
+              type="email"
+              id="ContactForm-email"
+              class="field__input"
+              name="contact[email]"
+              spellcheck="false"
+              autocapitalize="off"
+              value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+              aria-required="true"
+              required
+              {% if form.errors contains 'email' %}
+                aria-invalid="true"
+                aria-describedby="ContactForm-email-error"
+              {% endif %}
+              placeholder="{{ 'templates.contact.form.email' | t }}"
+            >
+            <label class="field__label" for="ContactForm-email">
+              {{- 'templates.contact.form.email' | t }} <span aria-hidden="true">*</span>
+            </label>
+            {%- if form.errors contains 'email' -%}
+              <small class="contact__field-error" id="ContactForm-email-error">
+                <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+                <span class="form__message">
+                  <span class="svg-wrapper">
+                    {{- 'icon-error.svg' | inline_asset_content -}}
+                  </span>
+                  {{- form.errors.translated_fields.email | capitalize }}
+                  {{ form.errors.messages.email -}}
+                </span>
+              </small>
+            {%- endif -%}
+          </div>
+        </div>
+
+            <!-- PHONE (Optional, but validated if filled) -->
+        <div class="field field--with-error">
+          <input
+            type="tel"
+            id="ContactForm-phone"
+            class="field__input"
+            autocomplete="tel"
+            name="contact[phone]"
+            inputmode="numeric"
+            value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+            placeholder="{{ 'templates.contact.form.phone' | t }}"
+          >
+          <label class="field__label" for="ContactForm-phone">
+            {{ 'templates.contact.form.phone' | t }}
+          </label>
+
+          <!-- Custom phone validation message -->
+          <small
+            class="contact__field-error"
+            id="ContactForm-phone-error"
+            hidden
+          ></small>
+        </div>
+
+        <!-- MESSAGE (Required) -->
+        <div class="field">
+          <textarea
+            rows="10"
+            id="ContactForm-body"
+            class="text-area field__input"
+            name="contact[body]"
+            placeholder="{{ 'templates.contact.form.comment' | t }}"
+            minlength="3"
+            maxlength="500"
+            required
+          >{{- form.body -}}</textarea>
+          <label class="form__label field__label" for="ContactForm-body">
+            {{- 'templates.contact.form.comment' | t }} <span aria-hidden="true">*</span>
+          </label>
+        </div>
+        <!-- Character counter - below the field -->
+        <div style="text-align: right; margin-top: 0.5rem;">
+          <span class="comment-char-counter" id="ContactForm-body-counter">0/500</span>
+        </div>
+
+        <div class="contact__button">
+          <button type="submit" class="button">
+            {{ 'templates.contact.form.send' | t }}
+          </button>
+        </div>
+      {%- endform -%}
+
+
+  {% comment %} 
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          var section = document.getElementById('contact-{{ section.id }}');
+          if (!section) return;
+
+          // Prefer success message; fall back to error block
+          var target =
+            section.querySelector('.form-status.form__message') ||
+            section.querySelector('.form__message[role="alert"]');
+
+          if (!target) return;
+
+          var stickyOffset = 96; // adjust if your header height differs
+          var rect = target.getBoundingClientRect();
+          var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          var top = rect.top + scrollTop - stickyOffset;
+
+          window.scrollTo({ top: top, behavior: 'smooth' });
+
+          // Keep accessibility focus without jumping
+          setTimeout(function () {
+            try { target.focus({ preventScroll: true }); } catch(e) {}
+          }, 250);
+        });
+      </script> {% endcomment %}
+
+
+
+      <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var section = document.getElementById('contact-{{ section.id }}');
+      if (!section) return;
+
+      // Find success first; else error block
+      var target = section.querySelector('.form-status.form__message, .form__message[role="alert"]');
+      if (!target) return;
+
+      // Stop the browser from stealing scroll
+      if (target.hasAttribute('autofocus')) target.removeAttribute('autofocus');
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+      // Detect sticky header height (Dawn & most themes)
+      function getHeaderHeight() {
+        var el =
+          document.querySelector('.shopify-section-header-sticky') ||
+          document.querySelector('.header-wrapper') ||
+          document.querySelector('#shopify-section-header') ||
+          document.querySelector('header');
+        return el ? el.getBoundingClientRect().height : 0;
+      }
+
+      function scrollToBanner(opts) {
+        var headerH = Math.round(getHeaderHeight()) || 96;  // fallback
+        var buffer = 12;                                     // a little breathing room
+        // Also teach scrollIntoView about the sticky header
+        target.style.scrollMarginTop = (headerH + buffer) + 'px';
+
+        if (opts && opts.useIntoView) {
+          target.scrollIntoView({ behavior: opts.behavior || 'smooth', block: 'start' });
+        } else {
+          var rect = target.getBoundingClientRect();
+          var top = rect.top + (window.pageYOffset || document.documentElement.scrollTop) - headerH - buffer;
+          window.scrollTo({ top: top, behavior: opts && opts.behavior || 'smooth' });
+        }
+      }
+
+      // Phase 1: initial smooth scroll
+      scrollToBanner({ useIntoView: true, behavior: 'smooth' });
+
+      // Phase 2: after header animations/layout shifts finish, lock it in
+      // Do a few retries via rAF, then a final hard-set without smooth behavior.
+      var tries = 0;
+      function settle() {
+        tries++;
+        scrollToBanner({ useIntoView: true, behavior: 'auto' });
+        if (tries < 4) requestAnimationFrame(settle);
+        else {
+          // Final absolute position correction
+          scrollToBanner({ useIntoView: false, behavior: 'auto' });
+          try { target.focus({ preventScroll: true }); } catch (e) {}
+        }
+      }
+      // Small delay so any CSS/JS reveal effects start first
+      setTimeout(function(){ requestAnimationFrame(settle); }, 200);
+    });
+
+    // Email invalid format validation
+    (function() {
+      'use strict';
+      
+      document.addEventListener('DOMContentLoaded', function() {
+        var section = document.getElementById('contact-{{ section.id }}');
+        if (!section) return;
+        
+        var formEl = section.querySelector('#ContactForm');
+        var emailInput = section.querySelector('#ContactForm-email');
+        var nameInput = section.querySelector('#ContactForm-name');
+        var phoneInput = section.querySelector('#ContactForm-phone');
+        var commentInput = section.querySelector('#ContactForm-body');
+        
+        if (!emailInput || !nameInput || !formEl) return;
+        
+        // Strict email validation regex (same as newsletter)
+        var emailPattern = /^[A-Za-z0-9](?!.*\.\.)[A-Za-z0-9._%+-]*[A-Za-z0-9_%+-]@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+        
+        // Name validation - letters, spaces, and apostrophes
+        var namePattern = /^[A-Za-z\s']+$/;
+        
+      function validatePhone(shouldTrim) {
+        if (!phoneInput) return true; // Phone is optional
+        
+        var phoneValue = phoneInput.value || '';
+        
+        // Check for spaces in the phone number (not just leading/trailing)
+        if (phoneValue.includes(' ')) {
+          phoneInput.setCustomValidity('Phone number should not contain spaces');
+          return false;
+        }
+        
+        // Only trim if explicitly requested (on blur or submit)
+        if (shouldTrim) {
+          var trimmedValue = phoneValue.trim();
+          if (phoneValue !== trimmedValue) {
+            phoneInput.value = trimmedValue;
+            phoneValue = trimmedValue;
+          }
+        }
+        
+        // For validation, use trimmed value to check if empty
+        var trimmedForCheck = phoneValue.trim();
+        
+        // Empty phone - optional field, so valid
+        if (!trimmedForCheck) {
+          phoneInput.setCustomValidity('');
+          return true;
+        }
+        
+        // Check if only numbers FIRST (before length check)
+        var isValid = /^[0-9]+$/.test(trimmedForCheck);
+        
+        if (!isValid) {
+          phoneInput.setCustomValidity('Phone number should contain only numbers (no spaces)');
+          return false;
+        }
+        
+        // Check length - min 9, max 12 characters (only if it's all numbers)
+        if (trimmedForCheck.length < 9) {
+          phoneInput.setCustomValidity('Phone number must be at least 9 digits');
+          return false;
+        }
+        
+        if (trimmedForCheck.length > 12) {
+          phoneInput.setCustomValidity('Phone number must not exceed 12 digits');
+          return false;
+        }
+        
+        // Clear custom validity - valid phone
+        phoneInput.setCustomValidity('');
+        return true;
+      }
+        
+        function validateName(shouldTrim) {
+          // Get the raw value
+          var nameValue = nameInput.value || '';
+          
+          // Only trim if explicitly requested (on blur or submit)
+          if (shouldTrim) {
+            var trimmedValue = nameValue.trim();
+            if (nameValue !== trimmedValue) {
+              nameInput.value = trimmedValue;
+              nameValue = trimmedValue;
+            }
+          }
+          
+          // For validation, use trimmed value to check if empty
+          var trimmedForCheck = nameValue.trim();
+          if (!trimmedForCheck) {
+            nameInput.setCustomValidity('');
+            return false;
+          }
+          
+          // Check length - min 3, max 50 characters (on trimmed value for length check)
+          if (trimmedForCheck.length < 3) {
+            nameInput.setCustomValidity('Name must be at least 3 characters');
+            return false;
+          }
+          
+          if (trimmedForCheck.length > 50) {
+            nameInput.setCustomValidity('Name must not exceed 50 characters');
+            return false;
+          }
+          
+          // Validate pattern on trimmed value
+          var isValid = namePattern.test(trimmedForCheck);
+          
+          if (!isValid) {
+            // Set custom validity message - shows in browser's native popup only
+            nameInput.setCustomValidity('Name should contain only letters, spaces, and apostrophes');
+            return false;
+          } else {
+            // Clear custom validity - valid name
+            nameInput.setCustomValidity('');
+            return true;
+          }
+        }
+        
+        function validateEmail() {
+          var emailValue = (emailInput.value || '').trim();
+          
+          // Empty email - let browser handle it with native message
+          if (!emailValue) {
+            emailInput.setCustomValidity('');
+            return false;
+          }
+          
+          var isValid = emailPattern.test(emailValue);
+          
+          if (!isValid) {
+            // Set custom validity message - shows in browser's native popup only
+            emailInput.setCustomValidity('Please enter a valid email address.');
+            return false;
+          } else {
+            // Clear custom validity - valid email
+            emailInput.setCustomValidity('');
+            return true;
+          }
+        }
+        
+        function updateCommentCounter() {
+          if (!commentInput) return;
+          
+          var counter = section.querySelector('#ContactForm-body-counter');
+          if (!counter) return;
+          
+          var commentValue = commentInput.value || '';
+          var length = commentValue.length;
+          
+          // Update counter display
+          counter.textContent = length + '/500';
+          
+          // Add exceeded class if over 500
+          if (length > 500) {
+            counter.classList.add('exceeded');
+          } else {
+            counter.classList.remove('exceeded');
+          }
+        }
+        
+        function validateComment(shouldTrim) {
+          if (!commentInput) return true;
+          
+          var commentValue = commentInput.value || '';
+          
+          // Only trim if explicitly requested (on blur or submit)
+          if (shouldTrim) {
+            var trimmedValue = commentValue.trim();
+            if (commentValue !== trimmedValue) {
+              commentInput.value = trimmedValue;
+              commentValue = trimmedValue;
+            }
+          }
+          
+          // For validation, use trimmed value to check if empty
+          var trimmedForCheck = commentValue.trim();
+          
+          // Empty comment - let browser handle it with native message
+          if (!trimmedForCheck) {
+            commentInput.setCustomValidity('');
+            return false;
+          }
+          
+          // Check maximum length FIRST (before minimum check)
+          if (trimmedForCheck.length > 500) {
+            commentInput.setCustomValidity('Comment must not exceed 500 characters');
+            return false;
+          }
+          
+          // Check minimum length
+          if (trimmedForCheck.length < 3) {
+            commentInput.setCustomValidity('Comment must be at least 3 characters');
+            return false;
+          }
+          
+          // Clear custom validity - valid comment
+          commentInput.setCustomValidity('');
+          return true;
+        }
+        
+        function handleSubmit(e) {
+          // Trim name value before validation
+          var nameValue = (nameInput.value || '').trim();
+          if (nameInput.value !== nameValue) {
+            nameInput.value = nameValue;
+          }
+          var emailValue = (emailInput.value || '').trim();
+          var commentInput = section.querySelector('#ContactForm-body');
+          
+          // Trim phone value before validation (if exists)
+          if (phoneInput) {
+            var phoneValue = (phoneInput.value || '').trim();
+            if (phoneInput.value !== phoneValue) {
+              phoneInput.value = phoneValue;
+            }
+          }
+          
+          // Trim comment value before validation
+          var commentValue = commentInput ? (commentInput.value || '').trim() : '';
+          if (commentInput && commentInput.value !== commentValue) {
+            commentInput.value = commentValue;
+          }
+          
+          // Check if required fields are empty
+          if (!nameValue || !emailValue || !commentValue) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            
+            // Set custom message for empty fields
+            if (!nameValue) {
+              nameInput.setCustomValidity('Please fill the fields');
+              nameInput.reportValidity();
+              nameInput.focus();
+            } else if (!emailValue) {
+              emailInput.setCustomValidity('Please fill the fields');
+              emailInput.reportValidity();
+              emailInput.focus();
+            } else if (!commentValue) {
+              commentInput.setCustomValidity('Please fill the fields');
+              commentInput.reportValidity();
+              commentInput.focus();
+            }
+            
+            return false;
+          }
+          
+          // Validate name format (trim before validation)
+          if (!validateName(true)) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            // Trigger browser's native validation message
+            nameInput.reportValidity();
+            nameInput.focus();
+            return false;
+          }
+          
+          // Validate email format
+          if (!validateEmail()) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            // Trigger browser's native validation message
+            emailInput.reportValidity();
+            emailInput.focus();
+            return false;
+          }
+          
+          // Validate phone format (if provided, trim before validation)
+          if (phoneInput && !validatePhone(true)) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            // Trigger browser's native validation message
+            phoneInput.reportValidity();
+            phoneInput.focus();
+            return false;
+          }
+          
+          // Validate comment length (trim before validation)
+          if (commentInput && !validateComment(true)) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            // Trigger browser's native validation message
+            commentInput.reportValidity();
+            commentInput.focus();
+            return false;
+          }
+          
+          // Clear any custom validity messages before submitting
+          nameInput.setCustomValidity('');
+          emailInput.setCustomValidity('');
+          if (phoneInput) phoneInput.setCustomValidity('');
+          if (commentInput) commentInput.setCustomValidity('');
+          
+          return true;
+        }
+        
+        // Check on input for name field - don't trim while typing
+        nameInput.addEventListener('input', function(e) {
+          validateName(false); // Don't trim while typing
+        });
+        
+        // Trim leading/trailing spaces on blur
+        nameInput.addEventListener('blur', function(e) {
+          validateName(true); // Trim on blur
+        });
+        
+        // Check on input for email field
+        emailInput.addEventListener('input', function() {
+          var emailValue = (emailInput.value || '').trim();
+          emailInput.value = emailValue;
+          validateEmail();
+        });
+        
+        // Check on blur for email field
+        emailInput.addEventListener('blur', function() {
+          validateEmail();
+        });
+        
+        // Check on input for comment field (if exists) - don't trim while typing
+        if (commentInput) {
+          commentInput.addEventListener('input', function() {
+            updateCommentCounter();
+            validateComment(false); // Don't trim while typing
+          });
+          
+          // Trim leading/trailing spaces on blur
+          commentInput.addEventListener('blur', function() {
+            validateComment(true); // Trim on blur
+          });
+          
+          // Initial counter update
+          updateCommentCounter();
+          
+          // Check on invalid event for comment - ensure custom message shows
+          commentInput.addEventListener('invalid', function(e) {
+            var commentValue = (commentInput.value || '').trim();
+            if (commentValue) {
+              // Check maximum length FIRST (before minimum check)
+              if (commentValue.length > 500) {
+                commentInput.setCustomValidity('Comment must not exceed 500 characters');
+              } else if (commentValue.length < 3) {
+                commentInput.setCustomValidity('Comment must be at least 3 characters');
+              }
+            }
+          });
+        }
+        
+      // Check on input for phone field (if exists) - prevent spaces
+      if (phoneInput) {
+        // Prevent spaces from being entered
+        phoneInput.addEventListener('keydown', function(e) {
+          if (e.key === ' ' || e.keyCode === 32) {
+            e.preventDefault();
+            phoneInput.setCustomValidity('Phone number should not contain spaces');
+            phoneInput.reportValidity();
+            return false;
+          }
+        });
+        
+        // Remove spaces if somehow entered (paste, etc.) and validate
+        phoneInput.addEventListener('input', function() {
+          var phoneValue = phoneInput.value || '';
+          // Remove all spaces
+          var valueWithoutSpaces = phoneValue.replace(/\s/g, '');
+          if (phoneValue !== valueWithoutSpaces) {
+            phoneInput.value = valueWithoutSpaces;
+            phoneInput.setCustomValidity('Phone number should not contain spaces');
+            phoneInput.reportValidity();
+          }
+          validatePhone(false); // Don't trim while typing
+        });
+        
+        // Trim leading/trailing spaces on blur
+        phoneInput.addEventListener('blur', function() {
+          validatePhone(true); // Trim on blur
+        });
+          
+        // Check on invalid event for phone - ensure custom message shows
+        phoneInput.addEventListener('invalid', function(e) {
+          var phoneValue = phoneInput.value || '';
+          if (phoneValue) {
+            // Check for spaces first
+            if (phoneValue.includes(' ')) {
+              phoneInput.setCustomValidity('Phone number should not contain spaces');
+            } else {
+              var trimmedValue = phoneValue.trim();
+              // Check format (numbers only)
+              if (!/^[0-9]+$/.test(trimmedValue)) {
+                phoneInput.setCustomValidity('Phone number should contain only numbers ');
+              } else if (trimmedValue.length < 9) {
+                phoneInput.setCustomValidity('Phone number must be at least 9 digits');
+              } else if (trimmedValue.length > 12) {
+                phoneInput.setCustomValidity('Phone number must not exceed 12 digits');
+              }
+            }
+          }
+        });
+        }
+        
+        // Check on invalid event for name - ensure custom message shows
+        nameInput.addEventListener('invalid', function(e) {
+          var nameValue = (nameInput.value || '').trim();
+          if (nameValue && !namePattern.test(nameValue)) {
+            nameInput.setCustomValidity('Name should contain only letters, spaces, and apostrophes');
+          }
+        });
+        
+        // Check on invalid event for email - ensure custom message shows
+        emailInput.addEventListener('invalid', function(e) {
+          var emailValue = (emailInput.value || '').trim();
+          if (emailValue && !emailPattern.test(emailValue)) {
+            emailInput.setCustomValidity('Please enter a valid email address.');
+          }
+        });
+        
+        // Form submit validation - use capture phase
+        formEl.addEventListener('submit', handleSubmit, true);
+        
+        // Initial validation (don't trim on initial load)
+        validateName(false);
+        validateEmail();
+        if (phoneInput) validatePhone(false);
+        if (commentInput) validateComment(false);
+      });
+    })();
+  </script>
+
+    </div>
+  </div>
+
+
+  {% schema %}
+  {
+    "name": "t:sections.contact-form.name",
+    "tag": "section",
+    "class": "section",
+    "disabled_on": {
+      "groups": ["header", "footer"]
+    },
+    "settings": [
+      {
+        "type": "inline_richtext",
+        "id": "heading",
+        "default": "t:sections.contact-form.settings.title.default",
+        "label": "t:sections.contact-form.settings.title.label"
+      },
+      {
+        "type": "select",
+        "id": "heading_size",
+        "options": [
+          {
+            "value": "h2",
+            "label": "t:sections.all.heading_size.options__1.label"
+          },
+          {
+            "value": "h1",
+            "label": "t:sections.all.heading_size.options__2.label"
+          },
+          {
+            "value": "h0",
+            "label": "t:sections.all.heading_size.options__3.label"
+          },
+          {
+            "value": "hxl",
+            "label": "t:sections.all.heading_size.options__4.label"
+          },
+          {
+            "value": "hxxl",
+            "label": "t:sections.all.heading_size.options__5.label"
+          }
+        ],
+        "default": "h1",
+        "label": "t:sections.all.heading_size.label"
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-1"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.all.padding.section_padding_heading"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ],
+    "presets": [
+      {
+        "name": "t:sections.contact-form.presets.name"
+      }
+    ]
+  }
+  {% endschema %}
